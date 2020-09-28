@@ -6,6 +6,7 @@ const PHOTOS_LIKES_RANGE = [15, 200];
 const COMMENTS_AVATAR_RANGE = [1, 6];
 const COMMENTS_NAMES = [`Иван`, `Василий`, `Юра`, `Миша`, `Маша`, `Оля`];
 const COMMENTS_RANDOM_RANGE = [1, 7];
+const COMMENTS_MESSAGES_RANDOM_COUNT = 2;
 const COMMENTS_MESSAGES = [
   `Всё отлично!`,
   `В целом всё неплохо. Но не всё.`,
@@ -25,13 +26,19 @@ const arrayShuffle = (arr) => {
   return shuffle[0];
 };
 
-const arrayShuffleMessages = (arrCommentsMessage) => {
-  const shuffle = arrCommentsMessage.sort(() => Math.round(Math.random() * 100) - 50);
-  const toggleNumber = arrayShuffle([1, 2]);
-  if (toggleNumber === 1) {
-    return `${shuffle[0]} ${shuffle[1]}`;
+const arrayShuffleMessages = (arrCommentsMessage, n) => {
+  if (n <= arrCommentsMessage.length) {
+    const clonArrCommentsMessage = arrCommentsMessage.slice();
+    const shuffle = clonArrCommentsMessage.sort(() => Math.round(Math.random() * 100) - 50);
+    const randomInteger = randomMinMaxRange([1, n]);
+    let arr = ``;
+    for (let i = 0; i < randomInteger; i++) {
+      arr = arr + shuffle[i] + ` `;
+    }
+    return arr;
+  } else {
+    return `Число n не может быть больше длины массива arr`;
   }
-  return shuffle[0];
 };
 
 const createArrRandomComments = (commentsAvatarRange, commentsMessages, commentsNames, commentsRandomRange) => {
@@ -39,7 +46,7 @@ const createArrRandomComments = (commentsAvatarRange, commentsMessages, comments
   for (let i = 0; i < arrayShuffle(commentsRandomRange); i++) {
     const objComments = {};
     objComments.avatar = arrayShuffle(commentsAvatarRange);
-    objComments.message = arrayShuffleMessages(commentsMessages);
+    objComments.message = arrayShuffleMessages(commentsMessages, COMMENTS_MESSAGES_RANDOM_COUNT);
     objComments.name = arrayShuffle(commentsNames);
     arrComments[i] = objComments;
   }
@@ -61,19 +68,24 @@ const createArrPhotos = (photosNumber, photosDescription, photoLikesRandomNumber
   return arrPhoto;
 };
 
-const usersPhoto = document.querySelector(`.pictures__title`);
-usersPhoto.classList.remove(`visually-hidden`);
+const picturesSection = document.querySelector(`.pictures`);
+const sectionHeading = picturesSection.querySelector(`.pictures__title`);
+sectionHeading.classList.remove(`visually-hidden`);
 
-const picturesElement = document.querySelector(`.pictures`);
 const picturePhotoTemplate = document.querySelector(`#picture`)
   .content
   .querySelector(`.picture`);
 
 const renderPhoto = (photo) => {
   const photoElement = picturePhotoTemplate.cloneNode(true);
-  photoElement.querySelector(`.picture__img`).src = photo.url;
-  photoElement.querySelector(`.picture__comments`).textContent = photo.comments.length;
-  photoElement.querySelector(`.picture__likes`).textContent = photo.likes;
+  const image = photoElement.querySelector(`.picture__img`);
+  const comments = photoElement.querySelector(`.picture__comments`);
+  const likes = photoElement.querySelector(`.picture__likes`);
+
+  image.src = photo.url;
+  image.alt = `Photo`;
+  comments.textContent = photo.comments.length;
+  likes.textContent = photo.likes;
   return photoElement;
 };
 
@@ -81,6 +93,6 @@ const photos = createArrPhotos(PHOTOS_URL_RANGE, PHOTOS_DESCRIPTION, PHOTOS_LIKE
 
 const fragment = document.createDocumentFragment();
 for (let i = 0; i < photos.length; i++) {
-  fragment.appendChild(renderPhoto(photos[i]));
+  fragment.append(renderPhoto(photos[i]));
 }
-picturesElement.appendChild(fragment);
+picturesSection.append(fragment);
