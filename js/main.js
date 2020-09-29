@@ -5,7 +5,7 @@ const PHOTOS_DESCRIPTION = `Фото`;
 const PHOTOS_LIKES_RANGE = [15, 200];
 const COMMENTS_AVATAR_RANGE = [1, 6];
 const COMMENTS_NAMES = [`Иван`, `Василий`, `Юра`, `Миша`, `Маша`, `Оля`];
-const COMMENTS_RANDOM_RANGE = [1, 7];
+const COMMENTS_RANDOM_RANGE = [1, 20];
 const COMMENTS_MESSAGES_RANDOM_COUNT = 2;
 const COMMENTS_MESSAGES = [
   `Всё отлично!`,
@@ -17,8 +17,8 @@ const COMMENTS_MESSAGES = [
 ];
 
 const randomMinMaxRange = (arrMinMaxNumber) => {
-  const randomNumber = arrMinMaxNumber[0] + Math.floor(Math.random() * arrMinMaxNumber[1]);
-  return randomNumber;
+  let rand = arrMinMaxNumber[0] + Math.random() * (arrMinMaxNumber[1] + 1 - arrMinMaxNumber[0]);
+  return Math.floor(rand);
 };
 
 const arrayShuffle = (arr) => {
@@ -43,9 +43,9 @@ const arrayShuffleMessages = (arrCommentsMessage, n) => {
 
 const createArrRandomComments = (commentsAvatarRange, commentsMessages, commentsNames, commentsRandomRange) => {
   const arrComments = [];
-  for (let i = 0; i < arrayShuffle(commentsRandomRange); i++) {
+  for (let i = 0; i < randomMinMaxRange(commentsRandomRange); i++) {
     const objComments = {};
-    objComments.avatar = arrayShuffle(commentsAvatarRange);
+    objComments.avatar = randomMinMaxRange(commentsAvatarRange);
     objComments.message = arrayShuffleMessages(commentsMessages, COMMENTS_MESSAGES_RANDOM_COUNT);
     objComments.name = arrayShuffle(commentsNames);
     arrComments[i] = objComments;
@@ -53,16 +53,15 @@ const createArrRandomComments = (commentsAvatarRange, commentsMessages, comments
   return arrComments;
 };
 
-const createArrPhotos = (photosNumber, photosDescription, photoLikesRandomNumber, arrRandomComments) => {
+const createArrPhotos = (photosNumber, photosDescription, photoLikesRandomNumber) => {
   const arrPhoto = [];
   for (let i = 0; i < photosNumber[1]; i++) {
     const objPhotoItem = {};
     objPhotoItem.url = `photos/${i + 1}.jpg`;
     objPhotoItem.description = photosDescription;
     objPhotoItem.likes = randomMinMaxRange(photoLikesRandomNumber);
-    objPhotoItem.comments = [];
-    const arrComments = arrRandomComments(COMMENTS_AVATAR_RANGE, COMMENTS_MESSAGES, COMMENTS_NAMES, COMMENTS_RANDOM_RANGE);
-    objPhotoItem.comments[arrComments.length] = arrComments;
+    const arrComments = createArrRandomComments(COMMENTS_AVATAR_RANGE, COMMENTS_MESSAGES, COMMENTS_NAMES, COMMENTS_RANDOM_RANGE);
+    objPhotoItem.comments = arrComments;
     arrPhoto[i] = objPhotoItem;
   }
   return arrPhoto;
@@ -89,10 +88,52 @@ const renderPhoto = (photo) => {
   return photoElement;
 };
 
-const photos = createArrPhotos(PHOTOS_URL_RANGE, PHOTOS_DESCRIPTION, PHOTOS_LIKES_RANGE, createArrRandomComments);
+const photos = createArrPhotos(PHOTOS_URL_RANGE, PHOTOS_DESCRIPTION, PHOTOS_LIKES_RANGE);
 
 const fragment = document.createDocumentFragment();
 for (let i = 0; i < photos.length; i++) {
   fragment.append(renderPhoto(photos[i]));
 }
 picturesSection.append(fragment);
+
+const bigPicture = document.querySelector(`.big-picture`);
+bigPicture.classList.remove(`hidden`);
+const bigPictureImg = bigPicture.querySelector(`.big-picture__img`).querySelector(`img`);
+const likesCount = bigPicture.querySelector(`.likes-count`);
+const commentsCount = bigPicture.querySelector(`.comments-count`);
+
+bigPictureImg.src = photos[0].url;
+likesCount.textContent = photos[0].likes;
+commentsCount.textContent = photos[0].comments.length;
+
+const commentsUl = document.querySelector(`.social__comments`);
+
+const commentsTemplate = document.querySelector(`#social__comment`)
+  .content
+  .querySelector(`.social__comment`);
+
+const renderComments = (comments) => {
+  const commentsElement = commentsTemplate.cloneNode(true);
+  const image = commentsElement.querySelector(`.social__picture`);
+  const socialText = commentsElement.querySelector(`.social__text`);
+  image.src = `img/avatar-${comments.avatar}.svg`;
+  image.alt = comments.name;
+  image.width = `35`;
+  image.height = `35`;
+  socialText.textContent = comments.message;
+  return commentsElement;
+};
+
+for (let i = 0; i < photos[0].comments.length; i++) {
+  fragment.append(renderComments(photos[0].comments[i]));
+}
+commentsUl.append(fragment);
+
+const description = document.querySelector(`.social__caption`);
+const socialCommentCount = document.querySelector(`.social__comment-count`);
+const commentsLoader = document.querySelector(`.comments-loader`);
+
+description.textContent = photos[0].description;
+socialCommentCount.classList.add(`hidden`);
+commentsLoader.classList.add(`hidden`);
+
