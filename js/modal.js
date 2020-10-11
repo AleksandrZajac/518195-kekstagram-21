@@ -66,9 +66,9 @@ uploadCancel.addEventListener(`click`, () => {
   closePopup();
 });
 
-// document.addEventListener(`keydown`, (evt) => {
-//   escapePopup(evt);
-// });
+document.addEventListener(`keydown`, (evt) => {
+  escapePopup(evt);
+});
 
 const effectList = body.querySelector(`.effects__list`);
 const imgUploadPreview = body.querySelector(`.img-upload__preview img`);
