@@ -95,9 +95,9 @@ for (let i = 0; i < photos.length; i++) {
   fragment.append(renderPhoto(photos[i]));
 }
 picturesSection.append(fragment);
-
+// --------------------------------------------------------------------------------------
 const bigPicture = document.querySelector(`.big-picture`);
-bigPicture.classList.remove(`hidden`);
+// bigPicture.classList.remove(`hidden`);
 const bigPictureImg = bigPicture.querySelector(`.big-picture__img`).querySelector(`img`);
 const likesCount = bigPicture.querySelector(`.likes-count`);
 const commentsCount = bigPicture.querySelector(`.comments-count`);
@@ -136,4 +136,5 @@ const commentsLoader = document.querySelector(`.comments-loader`);
 description.textContent = photos[0].description;
 socialCommentCount.classList.add(`hidden`);
 commentsLoader.classList.add(`hidden`);
+// -----------------------------------------------------------------------------------
 
