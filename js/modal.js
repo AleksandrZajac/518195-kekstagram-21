@@ -17,6 +17,7 @@ const effectLevelPin = imgEffectLevel.querySelector(`.effect-level__pin`);
 const effectLevelDepth = imgEffectLevel.querySelector(`.effect-level__depth`);
 const effectLevelValue = body.querySelector(`.effect-level__value`);
 
+
 let openPopup = (evt) => {
   evt.preventDefault();
   imgUploadOverlay.classList.remove(`hidden`);
@@ -34,9 +35,12 @@ let closePopup = () => {
 };
 
 let escapePopup = (escapeEvt) => {
-  escapeEvt.preventDefault();
-  if (escapeEvt.key === `Escape` && !escapeEvt.target.matches(`input[class="text__hashtags"]`) &&
-  !escapeEvt.target.matches(`textarea[class="text__description"]`)) {
+  const isEscape = escapeEvt.key === `Escape`;
+  const isNotHashtag = !escapeEvt.target.matches(`input[class="text__hashtags"]`);
+  const isNotDescription = !escapeEvt.target.matches(`textarea[class="text__description"]`);
+
+  if (isEscape && isNotHashtag && isNotDescription) {
+    escapeEvt.preventDefault();
     imgUploadOverlay.classList.add(`hidden`);
     body.classList.remove(`modal-open`);
   }
