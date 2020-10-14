@@ -11,7 +11,7 @@
     width: `35`,
     height: `35`
   };
-  const { width, height } = imgDimensions;
+  const {width, height} = imgDimensions;
   const fragment = document.createDocumentFragment();
 
   const commentsTemplate = document.querySelector(`#social__comment`)
@@ -47,8 +47,8 @@
 
   const closePhoto = (elem) => {
     bigPicture.classList.add(`hidden`);
-    elem.innerHTML = '';
-  }
+    elem.innerHTML = ``;
+  };
 
   let openUsersPopupHandler = (evt) => {
     if (evt.target.matches(`img`)) {
@@ -72,7 +72,7 @@
     closePhoto(commentsUl);
   });
 
-  document.addEventListener(`keydown`, (evt) => {
+  document.addEventListener(`keydown`, () => {
     closePhoto(commentsUl);
   });
 
