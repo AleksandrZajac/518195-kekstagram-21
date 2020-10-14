@@ -15,6 +15,24 @@ const COMMENTS_MESSAGES = [
   `Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.`,
   `Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!`,
 ];
+const bigPicture = document.querySelector(`.big-picture`);
+const bigPictureImg = bigPicture.querySelector(`.big-picture__img`).querySelector(`img`);
+const likesCount = bigPicture.querySelector(`.likes-count`);
+const commentsCount = bigPicture.querySelector(`.comments-count`);
+const commentsUl = document.querySelector(`.social__comments`);
+const imgDimensions = {
+  width: `35`,
+  height: `35`
+};
+const {width, height} = imgDimensions;
+const commentsTemplate = document.querySelector(`#social__comment`)
+  .content
+  .querySelector(`.social__comment`);
+const description = document.querySelector(`.social__caption`);
+const socialCommentCount = document.querySelector(`.social__comment-count`);
+const commentsLoader = document.querySelector(`.comments-loader`);
+const picturesSection = document.querySelector(`.pictures`);
+const sectionHeading = picturesSection.querySelector(`.pictures__title`);
 
 const randomMinMaxRange = (arrMinMaxNumber) => {
   let rand = arrMinMaxNumber[0] + Math.random() * (arrMinMaxNumber[1] + 1 - arrMinMaxNumber[0]);
@@ -67,8 +85,6 @@ const createArrPhotos = (photosNumber, photosDescription, photoLikesRandomNumber
   return arrPhoto;
 };
 
-const picturesSection = document.querySelector(`.pictures`);
-const sectionHeading = picturesSection.querySelector(`.pictures__title`);
 sectionHeading.classList.remove(`visually-hidden`);
 
 const picturePhotoTemplate = document.querySelector(`#picture`)
@@ -95,46 +111,62 @@ for (let i = 0; i < photos.length; i++) {
   fragment.append(renderPhoto(photos[i]));
 }
 picturesSection.append(fragment);
-// --------------------------------------------------------------------------------------
-const bigPicture = document.querySelector(`.big-picture`);
-// bigPicture.classList.remove(`hidden`);
-const bigPictureImg = bigPicture.querySelector(`.big-picture__img`).querySelector(`img`);
-const likesCount = bigPicture.querySelector(`.likes-count`);
-const commentsCount = bigPicture.querySelector(`.comments-count`);
 
-bigPictureImg.src = photos[0].url;
-likesCount.textContent = photos[0].likes;
-commentsCount.textContent = photos[0].comments.length;
+const commentsSection = (picturesNumber) => {
+  const renderComments = (comments) => {
+    const commentsElement = commentsTemplate.cloneNode(true);
+    const image = commentsElement.querySelector(`.social__picture`);
+    const socialText = commentsElement.querySelector(`.social__text`);
+    image.src = `img/avatar-${comments.avatar}.svg`;
+    image.alt = comments.name;
+    image.width = width;
+    image.height = height;
+    socialText.textContent = comments.message;
+    return commentsElement;
+  };
 
-const commentsUl = document.querySelector(`.social__comments`);
-
-const commentsTemplate = document.querySelector(`#social__comment`)
-  .content
-  .querySelector(`.social__comment`);
-
-const renderComments = (comments) => {
-  const commentsElement = commentsTemplate.cloneNode(true);
-  const image = commentsElement.querySelector(`.social__picture`);
-  const socialText = commentsElement.querySelector(`.social__text`);
-  image.src = `img/avatar-${comments.avatar}.svg`;
-  image.alt = comments.name;
-  image.width = `35`;
-  image.height = `35`;
-  socialText.textContent = comments.message;
-  return commentsElement;
+  for (let i = 0; i < photos[picturesNumber].comments.length; i++) {
+    fragment.append(renderComments(photos[picturesNumber].comments[i]));
+  }
+  commentsUl.append(fragment);
 };
 
-for (let i = 0; i < photos[0].comments.length; i++) {
-  fragment.append(renderComments(photos[0].comments[i]));
-}
-commentsUl.append(fragment);
 
-const description = document.querySelector(`.social__caption`);
-const socialCommentCount = document.querySelector(`.social__comment-count`);
-const commentsLoader = document.querySelector(`.comments-loader`);
-
-description.textContent = photos[0].description;
 socialCommentCount.classList.add(`hidden`);
 commentsLoader.classList.add(`hidden`);
-// -----------------------------------------------------------------------------------
 
+const closeUsersPopup = document.querySelector(`.big-picture__preview`);
+const pictures = document.querySelectorAll(`.picture`);
+
+const closePhoto = (elem) => {
+  bigPicture.classList.add(`hidden`);
+  elem.innerHTML = ``;
+};
+
+let openUsersPopupHandler = (evt) => {
+  if (evt.target.matches(`img`)) {
+    bigPicture.classList.remove(`hidden`);
+    bigPictureImg.src = evt.target.src;
+    bigPictureImg.alt = evt.target.alt;
+  }
+};
+
+for (let i = 0; i < pictures.length; i++) {
+  pictures[i].addEventListener(`click`, (evt) => {
+    openUsersPopupHandler(evt);
+    likesCount.textContent = photos[i].likes;
+    commentsCount.textContent = photos[i].comments.length;
+    description.textContent = photos[i].description;
+    commentsSection(i);
+  });
+}
+
+closeUsersPopup.addEventListener(`click`, () => {
+  closePhoto(commentsUl);
+});
+
+document.addEventListener(`keydown`, (evt) => {
+  if (evt.key === `Enter`) {
+    closePhoto(evt);
+  }
+});

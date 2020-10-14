@@ -23,6 +23,7 @@ let openPopup = (evt) => {
   imgUploadOverlay.classList.remove(`hidden`);
   body.classList.add(`modal-open`);
   viewEffectLevel.classList.add(`hidden`);
+  imgUploadPreview.style.filter = `none`;
   effectLevelPin.style.left = `450px`;
   effectLevelDepth.style.width = `100%`;
   scaleControlValue.value = `100%`;
@@ -82,6 +83,7 @@ let effectTypes = {};
 const filtersTypes = {
   none: () => {
     imgUploadPreview.removeAttribute(`class`);
+    imgUploadPreview.style.filter = `none`;
     effectTypes = {
       color: `none`
     };
