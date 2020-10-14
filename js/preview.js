@@ -94,46 +94,71 @@
         color: `none`
       };
     },
-    chrome: () => {
-      imgUploadPreview.ClassName = `effects__preview--chrome`;
-      imgUploadPreview.style.filter = `grayscale(1)`;
-      effectTypes = {
-        color: `chrome`
-      };
+    chrome: {
+      default: () => {
+        imgUploadPreview.ClassName = `effects__preview--chrome`;
+        imgUploadPreview.style.filter = `grayscale(1)`;
+        effectTypes = {
+          color: `chrome`
+        };
+      },
+      effect: (shift) => {
+        imgUploadPreview.style.filter = `grayscale(${(effectLevelPin.offsetLeft - shift) / 450})`;
+      }
     },
-    sepia: () => {
-      imgUploadPreview.ClassName = `effects__preview--sepia`;
-      imgUploadPreview.style.filter = `sepia(1)`;
-      effectTypes = {
-        color: `sepia`
-      };
+    sepia: {
+      default: () => {
+        imgUploadPreview.ClassName = `effects__preview--sepia`;
+        imgUploadPreview.style.filter = `sepia(1)`;
+        effectTypes = {
+          color: `sepia`
+        };
+      },
+      effect: (shift) => {
+        imgUploadPreview.style.filter = `invert(${(effectLevelPin.offsetLeft - shift) / 4.5}%)`;
+      }
     },
-    marvin: () => {
-      imgUploadPreview.ClassName = `effects__preview--marvin`;
-      imgUploadPreview.style.filter = `invert(100%)`;
-      effectTypes = {
-        color: `marvin`
-      };
+    marvin: {
+      default: () => {
+        imgUploadPreview.ClassName = `effects__preview--marvin`;
+        imgUploadPreview.style.filter = `invert(100%)`;
+        effectTypes = {
+          color: `marvin`
+        };
+      },
+      effect: (shift) => {
+        imgUploadPreview.style.filter = `invert(${(effectLevelPin.offsetLeft - shift) / 4.5}%)`;
+      }
     },
-    phobos: () => {
-      imgUploadPreview.classList = `effects__preview--phobos`;
-      imgUploadPreview.style.filter = `blur(3px)`;
-      effectTypes = {
-        color: `phobos`
-      };
+    phobos: {
+      default: () => {
+        imgUploadPreview.ClassName = `effects__preview--phobos`;
+        imgUploadPreview.style.filter = `blur(3px)`;
+        effectTypes = {
+          color: `phobos`
+        };
+      },
+      effect: (shift) => {
+        imgUploadPreview.style.filter = `blur(${(effectLevelPin.offsetLeft - shift) / 150}px)`;
+      }
     },
-    heat: () => {
-      imgUploadPreview.ClassName = `effects__preview--heat`;
-      imgUploadPreview.style.filter = `brightness(3)`;
-      effectTypes = {
-        color: `heat`
-      };
-    }
+    heat: {
+      default: () => {
+        imgUploadPreview.ClassName = `effects__preview--heat`;
+        imgUploadPreview.style.filter = `brightness(3)`;
+        effectTypes = {
+          color: `heat`
+        };
+      },
+      effect: (shift) => {
+        imgUploadPreview.style.filter = `brightness(${1 + (effectLevelPin.offsetLeft - shift.x) / 225})`;
+      }
+    },
   };
 
   let previewHandler = (evt) => {
     if (filtersTypes[evt.target.value]) {
-      filtersTypes[evt.target.value]();
+      // filtersTypes[evt.target.value]();
       defaultValues.slider();
       if (effectTypes.color !== `none`) {
         viewEffectLevel.classList.remove(`hidden`);
@@ -159,7 +184,7 @@
     document.addEventListener(`mouseup`, onMouseUp);
   });
 
-  const onMouseMove = (moveEvt) => {
+  const onMouseMove = (moveEvt, effect) => {
     moveEvt.preventDefault();
     const shift = {
       x: startCoords.x - moveEvt.clientX,
@@ -174,21 +199,20 @@
       effectLevelDepth.style.width = `${(effectLevelPin.offsetLeft - shift.x) / 4.5}%`;
       effectLevelValue.value = effectLevelPin.style.left;
 
-      if (effectTypes.color === `chrome`) {
-        imgUploadPreview.style.filter = `grayscale(${(effectLevelPin.offsetLeft - shift.x) / 450})`;
-      }
-      if (effectTypes.color === `sepia`) {
-        imgUploadPreview.style.filter = `sepia(${(effectLevelPin.offsetLeft - shift.x) / 450})`;
-      }
-      if (effectTypes.color === `marvin`) {
-        imgUploadPreview.style.filter = `invert(${(effectLevelPin.offsetLeft - shift.x) / 4.5}%)`;
-      }
-      if (effectTypes.color === `phobos`) {
-        imgUploadPreview.style.filter = `blur(${(effectLevelPin.offsetLeft - shift.x) / 150}px)`;
-      }
-      if (effectTypes.color === `heat`) {
-        imgUploadPreview.style.filter = `brightness(${1 + (effectLevelPin.offsetLeft - shift.x) / 225})`;
-      }
+      // filtersTypes.chrome.imgUploadPreview.style.filter = `grayscale(${(effectLevelPin.offsetLeft - shift.x) / 450})`;
+      console.log(effect(shift.x));
+      // if (effectTypes.color === `sepia`) {
+      //   imgUploadPreview.style.filter = `sepia(${(effectLevelPin.offsetLeft - shift.x) / 450})`;
+      // }
+      // if (effectTypes.color === `marvin`) {
+      //   imgUploadPreview.style.filter = `invert(${(effectLevelPin.offsetLeft - shift.x) / 4.5}%)`;
+      // }
+      // if (effectTypes.color === `phobos`) {
+      //   imgUploadPreview.style.filter = `blur(${(effectLevelPin.offsetLeft - shift.x) / 150}px)`;
+      // }
+      // if (effectTypes.color === `heat`) {
+      //   imgUploadPreview.style.filter = `brightness(${1 + (effectLevelPin.offsetLeft - shift.x) / 225})`;
+      // }
     }
   };
 
