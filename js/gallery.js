@@ -11,7 +11,7 @@
     .content
     .querySelector(`.picture`);
 
-  const addPhoto = (photo) => {
+  const addPhoto = () => {
     const renderPhoto = (photo) => {
       const photoElement = picturePhotoTemplate.cloneNode(true);
       const image = photoElement.querySelector(`.picture__img`);
