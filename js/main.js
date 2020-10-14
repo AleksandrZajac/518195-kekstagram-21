@@ -166,8 +166,7 @@ closeUsersPopup.addEventListener(`click`, () => {
 });
 
 document.addEventListener(`keydown`, (evt) => {
-  if (evt.key === `Esc`) {
-    evt.preventDefault();
+  if (evt.key === `Escape`) {
     closePhoto(commentsUl);
   }
 });
