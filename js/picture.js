@@ -11,7 +11,7 @@
     width: `35`,
     height: `35`
   };
-  const { width, height } = imgDimensions;
+  const {width, height} = imgDimensions;
   const fragment = document.createDocumentFragment();
 
   const commentsTemplate = document.querySelector(`#social__comment`)
@@ -57,26 +57,14 @@
     elem.innerHTML = ``;
   };
 
-  let openUsersPopupHandler = (evt, number) => {
-    if (evt.target.matches(`img`)) {
-      bigPicture.classList.remove(`hidden`);
-      commentsSection(number);
-    }
+  let openUsersPopupHandler = (number) => {
+    bigPicture.classList.remove(`hidden`);
+    commentsSection(number);
   };
 
   for (let i = 0; i < window.data.photos.length; i++) {
-    pictures[i].addEventListener(`click`, (evt) => {
-      openUsersPopupHandler(evt, i);
-      console.log(i);
-    });
-  }
-
-  for (let i = 0; i < window.data.photos.length; i++) {
-    pictures[i].addEventListener(`keydown`, (evtEnt) => {
-      if (evtEnt.key === `Enter`) {
-        openUsersPopupHandler(evtEnt, i);
-        console.log(i);
-      }
+    pictures[i].addEventListener(`click`, () => {
+      openUsersPopupHandler(i);
     });
   }
 

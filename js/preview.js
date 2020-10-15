@@ -146,8 +146,7 @@
     defaultValues.slider();
     if (effectTypes.color !== `none`) {
       viewEffectLevel.classList.remove(`hidden`);
-    }
-    if (effectTypes.color === `none`) {
+    } else {
       viewEffectLevel.classList.add(`hidden`);
     }
   };
