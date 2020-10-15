@@ -74,6 +74,14 @@
     }
   });
 
+  const up = document.querySelector(`.img-upload__control`);
+  up.addEventListener(`keydown`, (evt) => {
+    if (evt.key === `Enter`) {
+      // openPopup(evt);
+      console.log(5);
+    }
+  });
+
   uploadOpen.addEventListener(`click`, (evt) => {
     openPopup(evt);
   });
@@ -98,49 +106,57 @@
       imgUploadPreview.ClassName = `effects__preview--chrome`;
       imgUploadPreview.style.filter = `grayscale(1)`;
       effectTypes = {
-        color: `chrome`
+        color: (shift) => {
+          imgUploadPreview.style.filter = `grayscale(${(effectLevelPin.offsetLeft - shift) / 450})`;
+        }
       };
     },
     sepia: () => {
       imgUploadPreview.ClassName = `effects__preview--sepia`;
       imgUploadPreview.style.filter = `sepia(1)`;
       effectTypes = {
-        color: `sepia`
+        color: (shift) => {
+          imgUploadPreview.style.filter = `sepia(${(effectLevelPin.offsetLeft - shift) / 450})`;
+        }
       };
     },
     marvin: () => {
       imgUploadPreview.ClassName = `effects__preview--marvin`;
       imgUploadPreview.style.filter = `invert(100%)`;
       effectTypes = {
-        color: `marvin`
+        color: (shift) => {
+          imgUploadPreview.style.filter = `invert(${(effectLevelPin.offsetLeft - shift) / 4.5}%)`;
+        }
       };
     },
     phobos: () => {
       imgUploadPreview.classList = `effects__preview--phobos`;
       imgUploadPreview.style.filter = `blur(3px)`;
       effectTypes = {
-        color: `phobos`
+        color: (shift) => {
+          imgUploadPreview.style.filter = `blur(${(effectLevelPin.offsetLeft - shift) / 150}px)`;
+        }
       };
     },
     heat: () => {
       imgUploadPreview.ClassName = `effects__preview--heat`;
       imgUploadPreview.style.filter = `brightness(3)`;
       effectTypes = {
-        color: `heat`
+        color: (shift) => {
+          imgUploadPreview.style.filter = `brightness(${1 + (effectLevelPin.offsetLeft - shift) / 225})`;
+        }
       };
     }
   };
 
   let previewHandler = (evt) => {
-    if (filtersTypes[evt.target.value]) {
-      filtersTypes[evt.target.value]();
-      defaultValues.slider();
-      if (effectTypes.color !== `none`) {
-        viewEffectLevel.classList.remove(`hidden`);
-      }
-      if (effectTypes.color === `none`) {
-        viewEffectLevel.classList.add(`hidden`);
-      }
+    filtersTypes[evt.target.value]();
+    defaultValues.slider();
+    if (effectTypes.color !== `none`) {
+      viewEffectLevel.classList.remove(`hidden`);
+    }
+    if (effectTypes.color === `none`) {
+      viewEffectLevel.classList.add(`hidden`);
     }
   };
 
@@ -173,22 +189,7 @@
       effectLevelPin.style.left = `${effectLevelPin.offsetLeft - shift.x}px`;
       effectLevelDepth.style.width = `${(effectLevelPin.offsetLeft - shift.x) / 4.5}%`;
       effectLevelValue.value = effectLevelPin.style.left;
-
-      if (effectTypes.color === `chrome`) {
-        imgUploadPreview.style.filter = `grayscale(${(effectLevelPin.offsetLeft - shift.x) / 450})`;
-      }
-      if (effectTypes.color === `sepia`) {
-        imgUploadPreview.style.filter = `sepia(${(effectLevelPin.offsetLeft - shift.x) / 450})`;
-      }
-      if (effectTypes.color === `marvin`) {
-        imgUploadPreview.style.filter = `invert(${(effectLevelPin.offsetLeft - shift.x) / 4.5}%)`;
-      }
-      if (effectTypes.color === `phobos`) {
-        imgUploadPreview.style.filter = `blur(${(effectLevelPin.offsetLeft - shift.x) / 150}px)`;
-      }
-      if (effectTypes.color === `heat`) {
-        imgUploadPreview.style.filter = `brightness(${1 + (effectLevelPin.offsetLeft - shift.x) / 225})`;
-      }
+      effectTypes.color(shift.x);
     }
   };
 

@@ -20,6 +20,7 @@
   const description = document.querySelector(`.social__caption`);
   const socialCommentCount = document.querySelector(`.social__comment-count`);
   const commentsLoader = document.querySelector(`.comments-loader`);
+
   const commentsSection = (picturesNumber) => {
     const renderComments = (comments) => {
       const commentsElement = commentsTemplate.cloneNode(true);
@@ -29,7 +30,11 @@
       image.alt = comments.name;
       image.width = width;
       image.height = height;
+      image.tabindex = 0;
       socialText.textContent = comments.message;
+      likesCount.textContent = window.data.photos[picturesNumber].likes;
+      commentsCount.textContent = window.data.photos[picturesNumber].comments.length;
+      description.textContent = window.data.photos[picturesNumber].description;
       return commentsElement;
     };
 
@@ -47,24 +52,31 @@
 
   const closePhoto = (elem) => {
     bigPicture.classList.add(`hidden`);
-    elem.innerHTML = '';
-  }
+    elem.innerHTML = ``;
+  };
 
-  let openUsersPopupHandler = (evt) => {
+  let openUsersPopupHandler = (evt, number) => {
     if (evt.target.matches(`img`)) {
       bigPicture.classList.remove(`hidden`);
       bigPictureImg.src = evt.target.src;
       bigPictureImg.alt = evt.target.alt;
+      commentsSection(number);
     }
   };
 
-  for (let i = 0; i < pictures.length; i++) {
+  for (let i = 0; i < window.data.photos.length; i++) {
     pictures[i].addEventListener(`click`, (evt) => {
-      openUsersPopupHandler(evt);
-      likesCount.textContent = window.data.photos[i].likes;
-      commentsCount.textContent = window.data.photos[i].comments.length;
-      description.textContent = window.data.photos[i].description;
-      commentsSection(i);
+      openUsersPopupHandler(evt, i);
+      console.log(evt);
+    });
+  }
+
+  for (let i = 0; i < window.data.photos.length; i++) {
+    pictures[i].addEventListener(`keydown`, (evtEnt) => {
+      if (evtEnt.key === `Enter`) {
+        openUsersPopupHandler(evtEnt, i);
+        console.log(i);
+      }
     });
   }
 
@@ -73,7 +85,9 @@
   });
 
   document.addEventListener(`keydown`, (evt) => {
-    closePhoto(commentsUl);
+    if (evt.key === `Escape`) {
+      closePhoto(commentsUl);
+    }
   });
 
 })();
