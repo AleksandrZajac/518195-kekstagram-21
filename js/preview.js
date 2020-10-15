@@ -74,14 +74,6 @@
     }
   });
 
-  const up = document.querySelector(`.img-upload__control`);
-  up.addEventListener(`keydown`, (evt) => {
-    if (evt.key === `Enter`) {
-      // openPopup(evt);
-      console.log(5);
-    }
-  });
-
   uploadOpen.addEventListener(`click`, (evt) => {
     openPopup(evt);
   });

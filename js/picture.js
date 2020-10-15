@@ -35,6 +35,8 @@
       likesCount.textContent = window.data.photos[picturesNumber].likes;
       commentsCount.textContent = window.data.photos[picturesNumber].comments.length;
       description.textContent = window.data.photos[picturesNumber].description;
+      bigPictureImg.src = window.data.photos[picturesNumber].url;
+      bigPictureImg.alt = window.data.photos[picturesNumber].description;
       return commentsElement;
     };
 
@@ -58,8 +60,6 @@
   let openUsersPopupHandler = (evt, number) => {
     if (evt.target.matches(`img`)) {
       bigPicture.classList.remove(`hidden`);
-      bigPictureImg.src = evt.target.src;
-      bigPictureImg.alt = evt.target.alt;
       commentsSection(number);
     }
   };
@@ -67,7 +67,7 @@
   for (let i = 0; i < window.data.photos.length; i++) {
     pictures[i].addEventListener(`click`, (evt) => {
       openUsersPopupHandler(evt, i);
-      console.log(evt);
+      console.log(i);
     });
   }
 
