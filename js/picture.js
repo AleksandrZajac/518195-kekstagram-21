@@ -30,10 +30,13 @@
       image.alt = comments.name;
       image.width = width;
       image.height = height;
+      image.tabindex = 0;
       socialText.textContent = comments.message;
       likesCount.textContent = window.data.photos[picturesNumber].likes;
       commentsCount.textContent = window.data.photos[picturesNumber].comments.length;
       description.textContent = window.data.photos[picturesNumber].description;
+      bigPictureImg.src = window.data.photos[picturesNumber].url;
+      bigPictureImg.alt = window.data.photos[picturesNumber].description;
       return commentsElement;
     };
 
@@ -54,26 +57,14 @@
     elem.innerHTML = ``;
   };
 
-  let openUsersPopupHandler = (evt, number) => {
-    if (evt.target.matches(`img`)) {
-      bigPicture.classList.remove(`hidden`);
-      bigPictureImg.src = evt.target.src;
-      bigPictureImg.alt = evt.target.alt;
-      commentsSection(number);
-    }
+  let openUsersPopupHandler = (number) => {
+    bigPicture.classList.remove(`hidden`);
+    commentsSection(number);
   };
 
-  for (let i = 0; i < pictures.length; i++) {
-    pictures[i].addEventListener(`click`, (evt) => {
-      openUsersPopupHandler(evt, i);
-    });
-  }
-
-  for (let i = 0; i < pictures.length; i++) {
-    pictures[i].addEventListener(`keydown`, (evt) => {
-      if (evt.key === `Enter`) {
-        openUsersPopupHandler(evt, i);
-      }
+  for (let i = 0; i < window.data.photos.length; i++) {
+    pictures[i].addEventListener(`click`, () => {
+      openUsersPopupHandler(i);
     });
   }
 

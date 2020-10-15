@@ -94,78 +94,60 @@
         color: `none`
       };
     },
-    chrome: {
-      default: () => {
-        imgUploadPreview.ClassName = `effects__preview--chrome`;
-        imgUploadPreview.style.filter = `grayscale(1)`;
-        effectTypes = {
-          color: `chrome`
-        };
-      },
-      effect: (shift) => {
-        imgUploadPreview.style.filter = `grayscale(${(effectLevelPin.offsetLeft - shift) / 450})`;
-      }
+    chrome: () => {
+      imgUploadPreview.ClassName = `effects__preview--chrome`;
+      imgUploadPreview.style.filter = `grayscale(1)`;
+      effectTypes = {
+        color: (shift) => {
+          imgUploadPreview.style.filter = `grayscale(${(effectLevelPin.offsetLeft - shift) / 450})`;
+        }
+      };
     },
-    sepia: {
-      default: () => {
-        imgUploadPreview.ClassName = `effects__preview--sepia`;
-        imgUploadPreview.style.filter = `sepia(1)`;
-        effectTypes = {
-          color: `sepia`
-        };
-      },
-      effect: (shift) => {
-        imgUploadPreview.style.filter = `invert(${(effectLevelPin.offsetLeft - shift) / 4.5}%)`;
-      }
+    sepia: () => {
+      imgUploadPreview.ClassName = `effects__preview--sepia`;
+      imgUploadPreview.style.filter = `sepia(1)`;
+      effectTypes = {
+        color: (shift) => {
+          imgUploadPreview.style.filter = `sepia(${(effectLevelPin.offsetLeft - shift) / 450})`;
+        }
+      };
     },
-    marvin: {
-      default: () => {
-        imgUploadPreview.ClassName = `effects__preview--marvin`;
-        imgUploadPreview.style.filter = `invert(100%)`;
-        effectTypes = {
-          color: `marvin`
-        };
-      },
-      effect: (shift) => {
-        imgUploadPreview.style.filter = `invert(${(effectLevelPin.offsetLeft - shift) / 4.5}%)`;
-      }
+    marvin: () => {
+      imgUploadPreview.ClassName = `effects__preview--marvin`;
+      imgUploadPreview.style.filter = `invert(100%)`;
+      effectTypes = {
+        color: (shift) => {
+          imgUploadPreview.style.filter = `invert(${(effectLevelPin.offsetLeft - shift) / 4.5}%)`;
+        }
+      };
     },
-    phobos: {
-      default: () => {
-        imgUploadPreview.ClassName = `effects__preview--phobos`;
-        imgUploadPreview.style.filter = `blur(3px)`;
-        effectTypes = {
-          color: `phobos`
-        };
-      },
-      effect: (shift) => {
-        imgUploadPreview.style.filter = `blur(${(effectLevelPin.offsetLeft - shift) / 150}px)`;
-      }
+    phobos: () => {
+      imgUploadPreview.classList = `effects__preview--phobos`;
+      imgUploadPreview.style.filter = `blur(3px)`;
+      effectTypes = {
+        color: (shift) => {
+          imgUploadPreview.style.filter = `blur(${(effectLevelPin.offsetLeft - shift) / 150}px)`;
+        }
+      };
     },
-    heat: {
-      default: () => {
-        imgUploadPreview.ClassName = `effects__preview--heat`;
-        imgUploadPreview.style.filter = `brightness(3)`;
-        effectTypes = {
-          color: `heat`
-        };
-      },
-      effect: (shift) => {
-        imgUploadPreview.style.filter = `brightness(${1 + (effectLevelPin.offsetLeft - shift.x) / 225})`;
-      }
-    },
+    heat: () => {
+      imgUploadPreview.ClassName = `effects__preview--heat`;
+      imgUploadPreview.style.filter = `brightness(3)`;
+      effectTypes = {
+        color: (shift) => {
+          imgUploadPreview.style.filter = `brightness(${1 + (effectLevelPin.offsetLeft - shift) / 225})`;
+        }
+      };
+    }
   };
 
   let previewHandler = (evt) => {
-    if (filtersTypes[evt.target.value]) {
-      // filtersTypes[evt.target.value]();
-      defaultValues.slider();
-      if (effectTypes.color !== `none`) {
-        viewEffectLevel.classList.remove(`hidden`);
-      }
-      if (effectTypes.color === `none`) {
-        viewEffectLevel.classList.add(`hidden`);
-      }
+    filtersTypes[evt.target.value]();
+    defaultValues.slider();
+    if (effectTypes.color !== `none`) {
+      viewEffectLevel.classList.remove(`hidden`);
+    } else {
+      viewEffectLevel.classList.add(`hidden`);
     }
   };
 
@@ -184,7 +166,7 @@
     document.addEventListener(`mouseup`, onMouseUp);
   });
 
-  const onMouseMove = (moveEvt, effect) => {
+  const onMouseMove = (moveEvt) => {
     moveEvt.preventDefault();
     const shift = {
       x: startCoords.x - moveEvt.clientX,
@@ -198,21 +180,7 @@
       effectLevelPin.style.left = `${effectLevelPin.offsetLeft - shift.x}px`;
       effectLevelDepth.style.width = `${(effectLevelPin.offsetLeft - shift.x) / 4.5}%`;
       effectLevelValue.value = effectLevelPin.style.left;
-
-      // filtersTypes.chrome.imgUploadPreview.style.filter = `grayscale(${(effectLevelPin.offsetLeft - shift.x) / 450})`;
-      console.log(effect(shift.x));
-      // if (effectTypes.color === `sepia`) {
-      //   imgUploadPreview.style.filter = `sepia(${(effectLevelPin.offsetLeft - shift.x) / 450})`;
-      // }
-      // if (effectTypes.color === `marvin`) {
-      //   imgUploadPreview.style.filter = `invert(${(effectLevelPin.offsetLeft - shift.x) / 4.5}%)`;
-      // }
-      // if (effectTypes.color === `phobos`) {
-      //   imgUploadPreview.style.filter = `blur(${(effectLevelPin.offsetLeft - shift.x) / 150}px)`;
-      // }
-      // if (effectTypes.color === `heat`) {
-      //   imgUploadPreview.style.filter = `brightness(${1 + (effectLevelPin.offsetLeft - shift.x) / 225})`;
-      // }
+      effectTypes.color(shift.x);
     }
   };
 
