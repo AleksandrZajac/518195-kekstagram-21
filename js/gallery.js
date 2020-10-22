@@ -11,26 +11,28 @@
     .content
     .querySelector(`.picture`);
 
-  const addPhoto = () => {
-    const renderPhoto = (photo) => {
-      const photoElement = picturePhotoTemplate.cloneNode(true);
-      const image = photoElement.querySelector(`.picture__img`);
-      const comments = photoElement.querySelector(`.picture__comments`);
-      const likes = photoElement.querySelector(`.picture__likes`);
+  const renderPhoto = (photo) => {
+    const photoElement = picturePhotoTemplate.cloneNode(true);
+    const image = photoElement.querySelector(`.picture__img`);
+    const comments = photoElement.querySelector(`.picture__comments`);
+    const likes = photoElement.querySelector(`.picture__likes`);
 
-      image.src = photo.url;
-      image.alt = `Photo`;
-      comments.textContent = photo.comments.length;
-      likes.textContent = photo.likes;
-      return photoElement;
-    };
+    image.src = photo.url;
+    image.alt = `Photo`;
+    comments.textContent = photo.comments.length;
+    likes.textContent = photo.likes;
+    return photoElement;
+  };
 
-    for (let i = 0; i < window.data.photos.length; i++) {
-      fragment.append(renderPhoto(window.data.photos[i]));
+  window.gallery = (itemsList) => {
+    for (let i = 0; i < itemsList.length; i++) {
+      const photo = renderPhoto(itemsList[i]);
+      photo.addEventListener(`click`, () => {
+        window.picture.comment(itemsList[i]);
+      });
+      fragment.append(photo);
     }
     picturesSection.append(fragment);
   };
-
-  addPhoto();
 
 })();
