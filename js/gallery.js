@@ -24,7 +24,7 @@
     return photoElement;
   };
 
-  window.gallery = (itemsList) => {
+  const gallery = (itemsList) => {
     for (let i = 0; i < itemsList.length; i++) {
       const photo = renderPhoto(itemsList[i]);
       photo.addEventListener(`click`, () => {
@@ -34,5 +34,18 @@
     }
     picturesSection.append(fragment);
   };
+
+  let itemsList = [];
+
+  const successHandler = (data) => {
+    itemsList = data;
+    gallery(itemsList);
+  };
+
+  window.gallery = {
+    elements: gallery,
+  };
+
+  window.load(successHandler);
 
 })();
