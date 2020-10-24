@@ -51,17 +51,8 @@
     }
   });
 
-  let itemsList = [];
-
-  const successHandler = function (data) {
-    itemsList = data;
-    window.gallery(itemsList);
-  };
-
   window.picture = {
     comment: pictureItem,
   };
-
-  window.load(successHandler);
 
 })();
