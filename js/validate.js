@@ -64,7 +64,7 @@
           hashtagInput.setCustomValidity(`Нельзя указать больше пяти хэш-тегов`);
           break;
         default:
-          hashtagInput.setCustomValidity(` `);
+          hashtagInput.setCustomValidity(``);
           break;
       }
     }
@@ -77,5 +77,10 @@
     }
     comments.reportValidity();
   });
+
+  window.validate = {
+    hashtagInput,
+    comments
+  };
 
 })();

@@ -11,26 +11,47 @@
     .content
     .querySelector(`.picture`);
 
-  const addPhoto = () => {
-    const renderPhoto = (photo) => {
-      const photoElement = picturePhotoTemplate.cloneNode(true);
-      const image = photoElement.querySelector(`.picture__img`);
-      const comments = photoElement.querySelector(`.picture__comments`);
-      const likes = photoElement.querySelector(`.picture__likes`);
+  const renderPhoto = (photo) => {
+    const photoElement = picturePhotoTemplate.cloneNode(true);
+    const image = photoElement.querySelector(`.picture__img`);
+    const comments = photoElement.querySelector(`.picture__comments`);
+    const likes = photoElement.querySelector(`.picture__likes`);
 
-      image.src = photo.url;
-      image.alt = `Photo`;
-      comments.textContent = photo.comments.length;
-      likes.textContent = photo.likes;
-      return photoElement;
-    };
+    image.src = photo.url;
+    image.alt = `Photo`;
+    comments.textContent = photo.comments.length;
+    likes.textContent = photo.likes;
+    return photoElement;
+  };
+  const commentsLoader = document.querySelector(`.comments-loader`);
 
-    for (let i = 0; i < window.data.photos.length; i++) {
-      fragment.append(renderPhoto(window.data.photos[i]));
+  const successHandler = (itemsList) => {
+    for (let i = 0; i < itemsList.length; i++) {
+      const photo = renderPhoto(itemsList[i]);
+      photo.addEventListener(`click`, () => {
+        window.picture.show(itemsList[i]);
+        commentsLoader.addEventListener(`click`, () => {
+          console.log(itemsList[i]);
+          window.picture.uploadComments(itemsList[i]);
+        });
+      });
+      fragment.append(photo);
     }
     picturesSection.append(fragment);
   };
 
-  addPhoto();
+  const errorHandler = (errorMessage) => {
+    const node = document.createElement(`div`);
+    node.style = `z-index: 100; margin: 0 auto; padding: 20px; text-align: center; background-color: red;`;
+    node.style.position = `absolute`;
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = `30px`;
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement(`afterbegin`, node);
+  };
+
+  window.load(successHandler, errorHandler);
 
 })();

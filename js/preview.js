@@ -3,7 +3,6 @@
 (() => {
 
   const body = document.querySelector(`body`);
-  const uploadOpen = document.querySelector(`#upload-file`);
   const imgUploadOverlay = body.querySelector(`.img-upload__overlay`);
   const uploadCancel = body.querySelector(`#upload-cancel`);
   const viewEffectLevel = body.querySelector(`.img-upload__effect-level`);
@@ -30,11 +29,19 @@
   const effectList = body.querySelector(`.effects__list`);
   const imgUploadPreview = body.querySelector(`.img-upload__preview img`);
   let effectTypes = {};
+  const main = document.querySelector(`main`);
+  const template = document.querySelector(`#success`)
+.content.
+querySelector(`.success`);
+  const element = template.cloneNode(true);
+  main.append(element);
+  const success = document.querySelector(`.success`);
+  success.classList.add(`hidden`);
+  const successButtonClose = document.querySelector(`.success__button`);
 
-  let openPopup = (evt) => {
-    evt.preventDefault();
+  const openPopup = () => {
+    window.photo.uploadPhoto();
     imgUploadOverlay.classList.remove(`hidden`);
-    body.classList.add(`modal-open`);
     viewEffectLevel.classList.add(`hidden`);
     imgUploadPreview.style.filter = `none`;
     defaultValues.slider();
@@ -55,6 +62,7 @@
       escapeEvt.preventDefault();
       imgUploadOverlay.classList.add(`hidden`);
       body.classList.remove(`modal-open`);
+      success.classList.add(`hidden`);
     }
   };
 
@@ -74,8 +82,8 @@
     }
   });
 
-  uploadOpen.addEventListener(`click`, (evt) => {
-    openPopup(evt);
+  window.photo.fileChooser.addEventListener(`change`, () => {
+    openPopup();
   });
 
   uploadCancel.addEventListener(`click`, () => {
@@ -179,7 +187,9 @@
     if (effectLevelPin.offsetLeft - shift.x > 0 && effectLevelPin.offsetLeft - shift.x < 450) {
       effectLevelPin.style.left = `${effectLevelPin.offsetLeft - shift.x}px`;
       effectLevelDepth.style.width = `${(effectLevelPin.offsetLeft - shift.x) / 4.5}%`;
-      effectLevelValue.value = effectLevelPin.style.left;
+      const valueCount = effectLevelPin.style.left.length - 2;
+      const pinValue = effectLevelPin.style.left.substring(0, valueCount);
+      effectLevelValue.value = pinValue;
       effectTypes.color(shift.x);
     }
   };
@@ -189,5 +199,32 @@
     document.removeEventListener(`mousemove`, onMouseMove);
     document.removeEventListener(`mouseup`, onMouseUp);
   };
+
+  let clearForm = () => {
+    window.photo.fileChooser.value = ``;
+    window.validate.hashtagInput.value = ``;
+    window.validate.comments.value = ``;
+  };
+
+  const successMessage = () => {
+    success.classList.remove(`hidden`);
+  };
+
+  const closeSuccessMessage = () => {
+    success.classList.add(`hidden`);
+  };
+
+  let form = document.querySelector(`.img-upload__form`);
+  form.addEventListener(`submit`, (evt) => {
+    window.upload(new FormData(form), () => {
+      closePopup();
+      clearForm();
+      successMessage();
+      successButtonClose.addEventListener(`click`, () => {
+        closeSuccessMessage();
+      });
+    });
+    evt.preventDefault();
+  });
 
 })();
