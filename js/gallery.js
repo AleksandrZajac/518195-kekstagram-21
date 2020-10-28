@@ -30,10 +30,6 @@
       const photo = renderPhoto(itemsList[i]);
       photo.addEventListener(`click`, () => {
         window.picture.show(itemsList[i]);
-        commentsLoader.addEventListener(`click`, () => {
-          console.log(itemsList[i]);
-          window.picture.uploadComments(itemsList[i]);
-        });
       });
       fragment.append(photo);
     }

@@ -26,8 +26,8 @@
     return commentsElement;
   };
 
-  let num = 0;
   const show = (itemsList) => {
+    foo(itemsList);
     const uploadCount = 5;
     if (itemsList.comments.length > uploadCount) {
       for (let i = 0; i < uploadCount; i++) {
@@ -44,10 +44,11 @@
     bigPicture.classList.remove(`hidden`);
   };
 
+  let num = 0;
+
   let uploadComments = (itemsList) => {
     commentsUl.innerHTML = ``;
     const uploadCount = 5;
-    // console.log(uploadCount);
     num = num + uploadCount;
     let uploadLength = num + uploadCount;
     if (itemsList.comments.length > uploadLength) {
@@ -65,19 +66,31 @@
     bigPicture.classList.remove(`hidden`);
   };
 
+  let foo = (param) => {
+    commentsLoader.addEventListener(`click`, () => {
+      if (param !== null) {
+        uploadComments(param);
+      }
+      // console.log(param);
+    });
+    closeUsersPopup.addEventListener(`click`, () => {
+      closePhoto(commentsUl);
+      param = null;
+      num = 0;
+    });
+  };
+
   socialCommentCount.classList.add(`hidden`);
   const closeUsersPopup = document.querySelector(`.big-picture__cancel`);
 
   const closePhoto = (elem) => {
     bigPicture.classList.add(`hidden`);
     elem.innerHTML = ``;
-    num = 0;
-    // console.log(num);
   };
 
-  closeUsersPopup.addEventListener(`click`, () => {
-    closePhoto(commentsUl);
-  });
+  // closeUsersPopup.addEventListener(`click`, () => {
+  //   closePhoto(commentsUl);
+  // });
 
   document.addEventListener(`keydown`, (evt) => {
     if (evt.key === `Escape`) {
