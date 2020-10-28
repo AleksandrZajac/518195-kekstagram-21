@@ -54,7 +54,7 @@
       escapeEvt.preventDefault();
       imgUploadOverlay.classList.add(`hidden`);
       body.classList.remove(`modal-open`);
-      success.classList.add(`hidden`);
+      // success.classList.add(`hidden`);
     }
   };
 

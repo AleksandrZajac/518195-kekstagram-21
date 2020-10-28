@@ -23,7 +23,6 @@
     likes.textContent = photo.likes;
     return photoElement;
   };
-  const commentsLoader = document.querySelector(`.comments-loader`);
 
   const successHandler = (itemsList) => {
     for (let i = 0; i < itemsList.length; i++) {

@@ -22,7 +22,7 @@
       reader.addEventListener(`load`, () => {
         preview.src = reader.result;
         for (let i = 0; i < effectsPreview.length; i++) {
-          effectsPreview[i].style.backgroundImage = `url(` + reader.result + `)`;
+          effectsPreview[i].style.backgroundImage = `url(${reader.result})`;
         }
       });
       reader.readAsDataURL(file);
