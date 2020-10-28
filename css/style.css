@@ -363,7 +363,7 @@
   }
 
   .img-upload__input:focus + .img-upload__label {
-    outline: auto 5px highlight;
+    outline: auto 10px highlight;
   }
 
 

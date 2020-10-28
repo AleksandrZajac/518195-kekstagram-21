@@ -32,6 +32,7 @@
 
   const openPopup = () => {
     window.photo.uploadPhoto();
+    console.log(window.photo.uploadPhoto());
     imgUploadOverlay.classList.remove(`hidden`);
     viewEffectLevel.classList.add(`hidden`);
     imgUploadPreview.style.filter = `none`;
