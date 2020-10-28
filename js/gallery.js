@@ -48,6 +48,6 @@
     document.body.insertAdjacentElement(`afterbegin`, node);
   };
 
-  window.load(successHandler, errorHandler);
+  window.http(successHandler, errorHandler);
 
 })();
