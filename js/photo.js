@@ -7,8 +7,6 @@
   const preview = document.querySelector(`.img-upload__preview img`);
   const effectsPreview = document.querySelectorAll(`.effects__preview`);
 
-  console.log(effectsPreview);
-
   let uploadPhoto = () => {
     const file = fileChooser.files[0];
     const fileName = file.name.toLowerCase();

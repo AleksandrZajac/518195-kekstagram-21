@@ -2,6 +2,8 @@
 
 (() => {
 
+  let uploadNumber = 0;
+  const uploadCount = 5;
   const bigPicture = document.querySelector(`.big-picture`);
   const bigPictureImg = bigPicture.querySelector(`.big-picture__img`).querySelector(`img`);
   const likesCount = bigPicture.querySelector(`.likes-count`);
@@ -26,17 +28,15 @@
     return commentsElement;
   };
 
-  const show = (itemsList) => {
-    foo(itemsList);
-    const uploadCount = 5;
-    if (itemsList.comments.length > uploadCount) {
-      for (let i = 0; i < uploadCount; i++) {
-        fragment.append(renderComments(itemsList, i));
+  let createComments = (items, length, number) => {
+    if (items.comments.length > length) {
+      for (let i = number; i < length; i++) {
+        fragment.append(renderComments(items, i));
         commentsLoader.classList.remove(`hidden`);
       }
     } else {
-      for (let i = 0; i < itemsList.comments.length; i++) {
-        fragment.append(renderComments(itemsList, i));
+      for (let i = number; i < items.comments.length; i++) {
+        fragment.append(renderComments(items, i));
         commentsLoader.classList.add(`hidden`);
       }
     }
@@ -44,39 +44,29 @@
     bigPicture.classList.remove(`hidden`);
   };
 
-  let num = 0;
+  const showComments = (itemsList) => {
+    removeItems(itemsList);
+    createComments(itemsList, uploadCount, uploadNumber);
+  };
 
   let uploadComments = (itemsList) => {
     commentsUl.innerHTML = ``;
-    const uploadCount = 5;
-    num = num + uploadCount;
-    let uploadLength = num + uploadCount;
-    if (itemsList.comments.length > uploadLength) {
-      for (let i = num; i < uploadLength; i++) {
-        fragment.append(renderComments(itemsList, i));
-        commentsLoader.classList.remove(`hidden`);
-      }
-    } else {
-      for (let i = num; i < itemsList.comments.length; i++) {
-        fragment.append(renderComments(itemsList, i));
-        commentsLoader.classList.add(`hidden`);
-      }
-    }
-    commentsUl.append(fragment);
-    bigPicture.classList.remove(`hidden`);
+    uploadNumber = uploadNumber + uploadCount;
+    let uploadLength = uploadNumber + uploadCount;
+    createComments(itemsList, uploadLength, uploadNumber);
   };
 
-  let foo = (param) => {
+  let removeItems = (param) => {
     commentsLoader.addEventListener(`click`, () => {
       if (param !== null) {
         uploadComments(param);
       }
-      // console.log(param);
     });
+
     closeUsersPopup.addEventListener(`click`, () => {
       closePhoto(commentsUl);
       param = null;
-      num = 0;
+      uploadNumber = 0;
     });
   };
 
@@ -88,10 +78,6 @@
     elem.innerHTML = ``;
   };
 
-  // closeUsersPopup.addEventListener(`click`, () => {
-  //   closePhoto(commentsUl);
-  // });
-
   document.addEventListener(`keydown`, (evt) => {
     if (evt.key === `Escape`) {
       closePhoto(commentsUl);
@@ -99,7 +85,7 @@
   });
 
   window.picture = {
-    show,
+    showComments,
     uploadComments
   };
 

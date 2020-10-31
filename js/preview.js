@@ -32,7 +32,6 @@
 
   const openPopup = () => {
     window.photo.uploadPhoto();
-    console.log(window.photo.uploadPhoto());
     imgUploadOverlay.classList.remove(`hidden`);
     viewEffectLevel.classList.add(`hidden`);
     imgUploadPreview.style.filter = `none`;
@@ -54,7 +53,6 @@
       escapeEvt.preventDefault();
       imgUploadOverlay.classList.add(`hidden`);
       body.classList.remove(`modal-open`);
-      // success.classList.add(`hidden`);
     }
   };
 

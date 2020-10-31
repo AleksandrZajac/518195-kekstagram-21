@@ -6,7 +6,6 @@
   const sectionHeading = picturesSection.querySelector(`.pictures__title`);
   const fragment = document.createDocumentFragment();
   sectionHeading.classList.remove(`visually-hidden`);
-
   const picturePhotoTemplate = document.querySelector(`#picture`)
     .content
     .querySelector(`.picture`);
@@ -24,29 +23,31 @@
     return photoElement;
   };
 
-  const successHandler = (itemsList) => {
-    for (let i = 0; i < itemsList.length; i++) {
-      const photo = renderPhoto(itemsList[i]);
+  const removePictures = () => {
+    const pictures = picturesSection.querySelectorAll(`.picture`);
+    for (let i = 0; i < pictures.length; i++) {
+      picturesSection.removeChild(pictures[i]);
+    }
+  };
+
+  const createGallery = (items, length) => {
+    removePictures();
+    let itemsLength = items.length;
+    if (length) {
+      itemsLength = length;
+    }
+    for (let i = 0; i < itemsLength; i++) {
+      const photo = renderPhoto(items[i]);
       photo.addEventListener(`click`, () => {
-        window.picture.show(itemsList[i]);
+        window.picture.showComments(items[i]);
       });
       fragment.append(photo);
     }
     picturesSection.append(fragment);
   };
 
-  const errorHandler = (errorMessage) => {
-    const node = document.createElement(`div`);
-    node.style = `z-index: 100; margin: 0 auto; padding: 20px; text-align: center; background-color: red;`;
-    node.style.position = `absolute`;
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = `30px`;
-
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement(`afterbegin`, node);
+  window.gallery = {
+    createGallery
   };
-
-  window.http(successHandler, errorHandler);
 
 })();
