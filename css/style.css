@@ -1449,3 +1449,13 @@
   .hidden {
     display: none;
   }
+
+  .text__hashtags:invalid {
+    border-color: red;
+    border-style: solid;
+  }
+
+  .text__description:invalid {
+    border-color: red;
+    border-style: solid;
+  }
