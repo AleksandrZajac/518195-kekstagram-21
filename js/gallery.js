@@ -6,7 +6,6 @@
   const sectionHeading = picturesSection.querySelector(`.pictures__title`);
   const fragment = document.createDocumentFragment();
   sectionHeading.classList.remove(`visually-hidden`);
-
   const picturePhotoTemplate = document.querySelector(`#picture`)
     .content
     .querySelector(`.picture`);
@@ -24,28 +23,31 @@
     return photoElement;
   };
 
-  const gallery = (itemsList) => {
-    for (let i = 0; i < itemsList.length; i++) {
-      const photo = renderPhoto(itemsList[i]);
+  const removePictures = () => {
+    const pictures = picturesSection.querySelectorAll(`.picture`);
+    for (let i = 0; i < pictures.length; i++) {
+      picturesSection.removeChild(pictures[i]);
+    }
+  };
+
+  const createGallery = (items, length) => {
+    removePictures();
+    let itemsLength = items.length;
+    if (length) {
+      itemsLength = length;
+    }
+    for (let i = 0; i < itemsLength; i++) {
+      const photo = renderPhoto(items[i]);
       photo.addEventListener(`click`, () => {
-        window.picture.comment(itemsList[i]);
+        window.picture.showComments(items[i]);
       });
       fragment.append(photo);
     }
     picturesSection.append(fragment);
   };
 
-  let itemsList = [];
-
-  const successHandler = (data) => {
-    itemsList = data;
-    gallery(itemsList);
-  };
-
   window.gallery = {
-    elements: gallery,
+    createGallery
   };
-
-  window.load(successHandler);
 
 })();
