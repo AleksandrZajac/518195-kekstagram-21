@@ -3,7 +3,6 @@
 (() => {
 
   const body = document.querySelector(`body`);
-  const uploadOpen = document.querySelector(`#upload-file`);
   const imgUploadOverlay = body.querySelector(`.img-upload__overlay`);
   const uploadCancel = body.querySelector(`#upload-cancel`);
   const viewEffectLevel = body.querySelector(`.img-upload__effect-level`);
@@ -30,11 +29,11 @@
   const effectList = body.querySelector(`.effects__list`);
   const imgUploadPreview = body.querySelector(`.img-upload__preview img`);
   let effectTypes = {};
+  let startCoords = {};
 
-  let openPopup = (evt) => {
-    evt.preventDefault();
+  const openPopup = () => {
+    window.photo.uploadPhoto();
     imgUploadOverlay.classList.remove(`hidden`);
-    body.classList.add(`modal-open`);
     viewEffectLevel.classList.add(`hidden`);
     imgUploadPreview.style.filter = `none`;
     defaultValues.slider();
@@ -74,8 +73,8 @@
     }
   });
 
-  uploadOpen.addEventListener(`click`, (evt) => {
-    openPopup(evt);
+  window.photo.fileChooser.addEventListener(`change`, () => {
+    openPopup();
   });
 
   uploadCancel.addEventListener(`click`, () => {
@@ -155,8 +154,6 @@
     previewHandler(pinEvt);
   });
 
-  let startCoords = {};
-
   effectLevelPin.addEventListener(`mousedown`, (evt) => {
     evt.preventDefault();
     startCoords = {
@@ -179,7 +176,9 @@
     if (effectLevelPin.offsetLeft - shift.x > 0 && effectLevelPin.offsetLeft - shift.x < 450) {
       effectLevelPin.style.left = `${effectLevelPin.offsetLeft - shift.x}px`;
       effectLevelDepth.style.width = `${(effectLevelPin.offsetLeft - shift.x) / 4.5}%`;
-      effectLevelValue.value = effectLevelPin.style.left;
+      const valueCount = effectLevelPin.style.left.length - 2;
+      const pinValue = effectLevelPin.style.left.substring(0, valueCount);
+      effectLevelValue.value = pinValue;
       effectTypes.color(shift.x);
     }
   };
@@ -188,6 +187,10 @@
     upEvt.preventDefault();
     document.removeEventListener(`mousemove`, onMouseMove);
     document.removeEventListener(`mouseup`, onMouseUp);
+  };
+
+  window.preview = {
+    closePopup
   };
 
 })();
