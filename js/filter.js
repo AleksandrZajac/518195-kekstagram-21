@@ -2,12 +2,12 @@
 
 (() => {
 
+  const ARRAY_RANDOM_LENGTH = 10;
   const imgFilters = document.querySelector(`.img-filters`);
   const defaultButton = document.querySelector(`#filter-default`);
   const randomButton = document.querySelector(`#filter-random`);
   const discussedButton = document.querySelector(`#filter-discussed`);
   const filterButtons = document.querySelectorAll(`.img-filters__button`);
-  const arrayRandomLength = 10;
 
   const arrayShuffle = (arr) => {
     const shuffle = arr.sort(() => Math.round(Math.random() * 100) - 50);
@@ -24,7 +24,7 @@
   const showRandomGallery = window.debounce((itemsGallery) => {
     const clonArr = itemsGallery.slice();
     const arrRandom = arrayShuffle(clonArr);
-    window.gallery.createGallery(arrRandom, arrayRandomLength);
+    window.gallery.createGallery(arrRandom, ARRAY_RANDOM_LENGTH);
   });
 
   const showDiscussedGallery = window.debounce((itemsGallery) => {

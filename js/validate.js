@@ -2,14 +2,14 @@
 
 (() => {
 
-  const hashtagInput = document.querySelector(`.text__hashtags`);
   const MIN_NAME_LENGTH = 2;
   const MAX_NAME_LENGTH = 20;
   const COMMENTS_MAX_LENGTH = 140;
   const MAX_HASHTAGS = 5;
+  const hashtagInput = document.querySelector(`.text__hashtags`);
   const comments = document.querySelector(`.text__description`);
 
-  let arrHashtgsUnique = (arr) => {
+  const checkForUniqueness = (arr) => {
     let result = [];
     for (let str of arr) {
       if (!result.includes(str)) {
@@ -19,9 +19,9 @@
     return result;
   };
 
-  let arrHashTags = () => {
-    let strLowerCase = hashtagInput.value.toLowerCase();
-    let arr = strLowerCase.split(` `);
+  const changeToLowerCase = () => {
+    const strLowerCase = hashtagInput.value.toLowerCase();
+    const arr = strLowerCase.split(` `);
     let arrTags = [];
     for (let i = 0; i < arr.length; i++) {
       if (arr[i] !== ``) {
@@ -32,15 +32,15 @@
   };
 
   hashtagInput.addEventListener(`input`, () => {
-    let regex = /^[\w\d]*$/;
-    let arrHash = arrHashTags();
-    let arrUnique = arrHashtgsUnique(arrHash);
+    const regex = /^[\w\d]*$/;
+    const arrHash = changeToLowerCase();
+    const arrUnique = checkForUniqueness(arrHash);
     let regexCheck = [];
 
     for (let i = 0; i < arrHash.length; i++) {
       regexCheck[i] = arrHash[i];
       if (arrHash[i][0] === `#`) {
-        let arrStr = regexCheck[i].split(``);
+        const arrStr = regexCheck[i].split(``);
         arrStr.splice(0, 1);
         regexCheck[i] = arrStr.join(``);
       }
@@ -74,6 +74,8 @@
   comments.addEventListener(`input`, () => {
     if (comments.value.length > COMMENTS_MAX_LENGTH) {
       comments.setCustomValidity(`Длина комментария не может быть больше 140 символов.`);
+    } else {
+      comments.setCustomValidity(``);
     }
     comments.reportValidity();
   });

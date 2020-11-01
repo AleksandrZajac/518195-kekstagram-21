@@ -29,6 +29,7 @@
   const effectList = body.querySelector(`.effects__list`);
   const imgUploadPreview = body.querySelector(`.img-upload__preview img`);
   let effectTypes = {};
+  let startCoords = {};
 
   const openPopup = () => {
     window.photo.uploadPhoto();
@@ -152,8 +153,6 @@
   effectList.addEventListener(`change`, (pinEvt) => {
     previewHandler(pinEvt);
   });
-
-  let startCoords = {};
 
   effectLevelPin.addEventListener(`mousedown`, (evt) => {
     evt.preventDefault();

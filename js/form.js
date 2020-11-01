@@ -3,8 +3,8 @@
 (() => {
 
   const main = document.querySelector(`main`);
-  const errorMes = [`#error`, `.error`];
-  const successMes = [`#success`, `.success`];
+  const errorStyles = [`#error`, `.error`];
+  const successStyles = [`#success`, `.success`];
 
   const clearForm = () => {
     window.photo.fileChooser.value = ``;
@@ -20,10 +20,10 @@
     main.append(element);
     const error = document.querySelector(className);
     error.classList.add(`hidden`);
-    return error;
   };
-  createTemplate(errorMes[0], errorMes[1]);
-  createTemplate(successMes[0], successMes[1]);
+
+  createTemplate(errorStyles[0], errorStyles[1]);
+  createTemplate(successStyles[0], successStyles[1]);
 
   const error = document.querySelector(`.error`);
   const errorButtonClose = document.querySelector(`.error__button`);
@@ -73,8 +73,8 @@
     errorButtonClose.addEventListener(`click`, () => {
       closeErrorMessage();
     });
-    error.addEventListener(`click`, (evtSuccess) => {
-      if (evtSuccess.target !== errorInner) {
+    error.addEventListener(`click`, (evtError) => {
+      if (evtError.target !== errorInner) {
         closeErrorMessage();
       }
     });

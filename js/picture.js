@@ -3,7 +3,7 @@
 (() => {
 
   let uploadNumber = 0;
-  const uploadCount = 5;
+  const UPLOAD_COUNT = 5;
   const bigPicture = document.querySelector(`.big-picture`);
   const bigPictureImg = bigPicture.querySelector(`.big-picture__img`).querySelector(`img`);
   const likesCount = bigPicture.querySelector(`.likes-count`);
@@ -46,13 +46,13 @@
 
   const showComments = (itemsList) => {
     removeItems(itemsList);
-    createComments(itemsList, uploadCount, uploadNumber);
+    createComments(itemsList, UPLOAD_COUNT, uploadNumber);
   };
 
   let uploadComments = (itemsList) => {
     commentsUl.innerHTML = ``;
-    uploadNumber = uploadNumber + uploadCount;
-    let uploadLength = uploadNumber + uploadCount;
+    uploadNumber = uploadNumber + UPLOAD_COUNT;
+    let uploadLength = uploadNumber + UPLOAD_COUNT;
     createComments(itemsList, uploadLength, uploadNumber);
   };
 
