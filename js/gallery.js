@@ -39,7 +39,7 @@
     for (let i = 0; i < itemsLength; i++) {
       const photo = renderPhoto(items[i]);
       photo.addEventListener(`click`, () => {
-        window.picture.showComments(items[i]);
+        window.picture.show(items[i]);
       });
       fragment.append(photo);
     }

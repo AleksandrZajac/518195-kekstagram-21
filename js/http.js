@@ -7,6 +7,9 @@
     GET: `https://21.javascript.pages.academy/kekstagram/data`
   };
 
+  const GET = `GET`;
+  const POST = `POST`;
+
   const StatusCode = {
     OK: 200
   };
@@ -33,11 +36,13 @@
 
     xhr.timeout = TIMEOUT_IN_MS;
 
-    if (data) {
-      xhr.open(`POST`, URL.POST);
+    const method = data ? POST : GET;
+
+    xhr.open(method, URL[method]); // Url - перечисление
+
+    if (method === POST) {
       xhr.send(data);
     } else {
-      xhr.open(`GET`, URL.GET);
       xhr.send();
     }
 
