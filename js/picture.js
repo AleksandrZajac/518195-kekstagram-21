@@ -44,7 +44,7 @@
     bigPicture.classList.remove(`hidden`);
   };
 
-  const showComments = (itemsList) => {
+  const show = (itemsList) => {
     removeItems(itemsList);
     createComments(itemsList, UPLOAD_COUNT, uploadNumber);
   };
@@ -85,7 +85,7 @@
   });
 
   window.picture = {
-    showComments,
+    show,
     uploadComments
   };
 
