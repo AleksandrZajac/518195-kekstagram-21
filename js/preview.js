@@ -30,6 +30,9 @@
   const imgUploadPreview = body.querySelector(`.img-upload__preview img`);
   let startCoords = {};
   const pinLevel = 450;
+  const target = {
+    value: ``
+  };
 
   const openPopup = () => {
     window.photo.uploadPhoto();
@@ -89,7 +92,6 @@
     none: () => {
       imgUploadPreview.removeAttribute(`class`);
       imgUploadPreview.style.filter = `none`;
-      return `none`;
     },
     chrome: (param) => {
       imgUploadPreview.ClassName = `effects__preview--chrome`;
@@ -111,10 +113,6 @@
       imgUploadPreview.ClassName = `effects__preview--heat`;
       imgUploadPreview.style.filter = `brightness(${1 + (effectLevelPin.offsetLeft + param) / 225})`;
     }
-  };
-
-  const target = {
-    value: ``
   };
 
   let previewHandler = (evt) => {
