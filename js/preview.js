@@ -59,19 +59,22 @@
     }
   };
 
+  const changeScale = (parameter) => {
+    scaleControlValue.value = `${parameter}%`;
+    imgUloadPreview.style.transform = `scale(${parameter / 100})`;
+  };
+
   const scaleSmaller = () => {
     if (+scaleControlValue.value.slice(0, scaleControlValue.value.length - 1) > 25) {
       const step = Number(scaleControlValue.value.slice(0, scaleControlValue.value.length - 1)) - 25;
-      scaleControlValue.value = `${step}%`;
-      imgUloadPreview.style.transform = `scale(${step / 100})`;
+      changeScale(step);
     }
   };
 
   const scaleBigger = () => {
     if (+scaleControlValue.value.slice(0, scaleControlValue.value.length - 1) < 100) {
       const step = Number(scaleControlValue.value.slice(0, scaleControlValue.value.length - 1)) + 25;
-      scaleControlValue.value = `${step}%`;
-      imgUloadPreview.style.transform = `scale(${step / 100})`;
+      changeScale(step);
     }
   };
 
