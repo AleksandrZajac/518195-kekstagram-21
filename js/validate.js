@@ -9,8 +9,8 @@
   const hashtagInput = document.querySelector(`.text__hashtags`);
   const comment = document.querySelector(`.text__description`);
 
-  const checkForUniqueness = (arr) => {
-    return Array.from(new Set(arr));
+  const checkForUniqueness = (hastags) => {
+    return [...new Set(hastags)];
   };
 
   const changeToLowerCase = () => {

@@ -136,27 +136,25 @@
     }
   };
 
-  effectList.addEventListener(`change`, (pinEvt) => {
-    previewHandler(pinEvt);
+  effectList.addEventListener(`change`, (evt) => {
+    previewHandler(evt);
   });
 
   effectLevelPin.addEventListener(`mousedown`, (evt) => {
-    evt.preventDefault();
     startCoords = {
       x: evt.clientX,
     };
-    document.addEventListener(`mousemove`, onMouseMove);
-    document.addEventListener(`mouseup`, onMouseUp);
+    document.addEventListener(`mousemove`, mouseMoveHandler);
+    document.addEventListener(`mouseup`, mouseUpHandler);
   });
 
-  const onMouseMove = (moveEvt) => {
-    moveEvt.preventDefault();
+  const mouseMoveHandler = (evt) => {
     const shift = {
-      x: startCoords.x - moveEvt.clientX,
+      x: startCoords.x - evt.clientX,
     };
 
     startCoords = {
-      x: moveEvt.clientX,
+      x: evt.clientX,
     };
 
     if (effectLevelPin.offsetLeft - shift.x > 0 && effectLevelPin.offsetLeft - shift.x < 450) {
@@ -169,10 +167,9 @@
     }
   };
 
-  const onMouseUp = (upEvt) => {
-    upEvt.preventDefault();
-    document.removeEventListener(`mousemove`, onMouseMove);
-    document.removeEventListener(`mouseup`, onMouseUp);
+  const mouseUpHandler = () => {
+    document.removeEventListener(`mousemove`, mouseMoveHandler);
+    document.removeEventListener(`mouseup`, mouseUpHandler);
   };
 
   window.preview = {
