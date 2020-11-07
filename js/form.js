@@ -82,5 +82,3 @@ form.addEventListener(`submit`, (evt) => {
   window.http(successHandler, errorHandler, new FormData(form));
   evt.preventDefault();
 });
-
-

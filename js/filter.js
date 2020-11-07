@@ -41,7 +41,6 @@ const clearButtonActive = () => {
 };
 
 const successHandler = (itemsList) => {
-
   showDefaultGallery(itemsList);
 
   defaultButton.addEventListener(`click`, () => {
@@ -61,7 +60,6 @@ const successHandler = (itemsList) => {
     clearButtonActive();
     discussedButton.classList.add(`img-filters__button--active`);
   });
-
 };
 
 const errorHandler = (errorMessage) => {
@@ -71,10 +69,8 @@ const errorHandler = (errorMessage) => {
   node.style.left = 0;
   node.style.right = 0;
   node.style.fontSize = `30px`;
-
   node.textContent = errorMessage;
   document.body.insertAdjacentElement(`afterbegin`, node);
 };
 
 window.http(successHandler, errorHandler);
-

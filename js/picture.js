@@ -1,10 +1,11 @@
 'use strict';
 
 const UPLOAD_COUNT = 5;
+
 const bigPicture = document.querySelector(`.big-picture`);
 const bigPictureImg = bigPicture.querySelector(`.big-picture__img`).querySelector(`img`);
 const likesCount = bigPicture.querySelector(`.likes-count`);
-const commentsUl = document.querySelector(`.social__comments`);
+const commentList = document.querySelector(`.social__comments`);
 const fragment = document.createDocumentFragment();
 const commentsLoader = document.querySelector(`.comments-loader`);
 const commentsTemplate = document.querySelector(`#social__comment`)
@@ -12,7 +13,6 @@ const commentsTemplate = document.querySelector(`#social__comment`)
     .querySelector(`.social__comment`);
 const description = document.querySelector(`.social__caption`);
 const socialCommentCount = document.querySelector(`.social__comment-count`);
-let uploadNumber = 0;
 
 const renderComments = (itemsList, number) => {
   const commentsElement = commentsTemplate.cloneNode(true);
@@ -38,7 +38,7 @@ const createComments = (items, length, number) => {
       commentsLoader.classList.add(`hidden`);
     }
   }
-  commentsUl.append(fragment);
+  commentList.append(fragment);
   bigPicture.classList.remove(`hidden`);
 };
 
@@ -47,8 +47,10 @@ const show = (itemsList) => {
   createComments(itemsList, UPLOAD_COUNT, uploadNumber);
 };
 
+let uploadNumber = 0;
+
 const uploadComments = (itemsList) => {
-  commentsUl.innerHTML = ``;
+  commentList.innerHTML = ``;
   uploadNumber = uploadNumber + UPLOAD_COUNT;
   const uploadLength = uploadNumber + UPLOAD_COUNT;
   createComments(itemsList, uploadLength, uploadNumber);
@@ -62,7 +64,7 @@ const removeItems = (param) => {
   });
 
   closeUsersPopup.addEventListener(`click`, () => {
-    closePhoto(commentsUl);
+    closePhoto(commentList);
     param = null;
     uploadNumber = 0;
   });
@@ -78,7 +80,7 @@ const closePhoto = (elem) => {
 
 document.addEventListener(`keydown`, (evt) => {
   if (evt.key === `Escape`) {
-    closePhoto(commentsUl);
+    closePhoto(commentList);
   }
 });
 

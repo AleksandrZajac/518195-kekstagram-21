@@ -4,6 +4,7 @@ const MIN_NAME_LENGTH = 2;
 const MAX_NAME_LENGTH = 20;
 const COMMENTS_MAX_LENGTH = 140;
 const MAX_HASHTAGS = 5;
+
 const hashtagInput = document.querySelector(`.text__hashtags`);
 const comment = document.querySelector(`.text__description`);
 
@@ -24,11 +25,13 @@ hashtagInput.addEventListener(`input`, () => {
 
   for (let i = 0; i < hashtags.length; i++) {
     regexCheck[i] = hashtags[i];
+
     if (hashtags[i][0] === `#`) {
       const arrStr = regexCheck[i].split(``);
       arrStr.splice(0, 1);
       regexCheck[i] = arrStr.join(``);
     }
+
     switch (true) {
       case hashtags[i][0] !== `#`:
         hashtagInput.setCustomValidity(`хэш - тег начинается с символа #(решётка)`);

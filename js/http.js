@@ -15,9 +15,10 @@ const StatusCode = {
 const TIMEOUT_IN_MS = 3000;
 
 window.http = (successHandler, errorHandler, data) => {
+  const method = data ? POST : GET;
   const xhr = new XMLHttpRequest();
-  xhr.responseType = `json`;
 
+  xhr.responseType = `json`;
   xhr.addEventListener(`load`, () => {
     if (xhr.status === StatusCode.OK) {
       successHandler(xhr.response);
@@ -33,9 +34,6 @@ window.http = (successHandler, errorHandler, data) => {
   });
 
   xhr.timeout = TIMEOUT_IN_MS;
-
-  const method = data ? POST : GET;
-
   xhr.open(method, Url[method]);
 
   if (method === POST) {
@@ -43,7 +41,4 @@ window.http = (successHandler, errorHandler, data) => {
   } else {
     xhr.send();
   }
-
 };
-
-

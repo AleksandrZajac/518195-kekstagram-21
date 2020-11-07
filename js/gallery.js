@@ -12,12 +12,12 @@ const renderPhoto = (photo) => {
   const photoElement = picturePhotoTemplate.cloneNode(true);
   const image = photoElement.querySelector(`.picture__img`);
   const comments = photoElement.querySelector(`.picture__comments`);
-  const likes = photoElement.querySelector(`.picture__likes`);
+  const like = photoElement.querySelector(`.picture__likes`);
 
   image.src = photo.url;
   image.alt = `Photo`;
   comments.textContent = photo.comments.length;
-  likes.textContent = photo.likes;
+  like.textContent = photo.like;
   return photoElement;
 };
 
@@ -47,4 +47,3 @@ const createGallery = (items, length) => {
 window.gallery = {
   createGallery
 };
-

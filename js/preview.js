@@ -1,6 +1,6 @@
 'use strict';
 
-const body = document.querySelector(`body`);
+const {body} = document;
 const imgUploadOverlay = body.querySelector(`.img-upload__overlay`);
 const uploadCancel = body.querySelector(`#upload-cancel`);
 const viewEffectLevel = body.querySelector(`.img-upload__effect-level`);
@@ -9,7 +9,7 @@ const scaleControlSmaller = imgUploadScale.querySelector(`.scale__control--small
 const scaleControlBigger = imgUploadScale.querySelector(`.scale__control--bigger`);
 const scaleControlValue = imgUploadScale.querySelector(`.scale__control--value`);
 const imgUloadPreview = body.querySelector(`.img-upload__preview`);
-const imgEffectLevel = document.querySelector(`.effect-level__line`);
+const imgEffectLevel = body.querySelector(`.effect-level__line`);
 const effectLevelPin = imgEffectLevel.querySelector(`.effect-level__pin`);
 const effectLevelDepth = imgEffectLevel.querySelector(`.effect-level__depth`);
 const effectLevelValue = body.querySelector(`.effect-level__value`);
@@ -173,4 +173,3 @@ const mouseUpHandler = () => {
 window.preview = {
   closePopup
 };
-

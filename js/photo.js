@@ -1,6 +1,7 @@
 'use strict';
 
 const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
+
 const fileChooser = document.querySelector(`#upload-file`);
 const preview = document.querySelector(`.img-upload__preview img`);
 const effectsPreview = document.querySelectorAll(`.effects__preview`);
@@ -29,5 +30,3 @@ window.photo = {
   upload,
   fileChooser
 };
-
-
