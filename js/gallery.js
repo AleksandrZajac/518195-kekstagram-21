@@ -5,10 +5,10 @@
   const picturesSection = document.querySelector(`.pictures`);
   const sectionHeading = picturesSection.querySelector(`.pictures__title`);
   const fragment = document.createDocumentFragment();
-  sectionHeading.classList.remove(`visually-hidden`);
   const picturePhotoTemplate = document.querySelector(`#picture`)
     .content
     .querySelector(`.picture`);
+  sectionHeading.classList.remove(`visually-hidden`);
 
   const renderPhoto = (photo) => {
     const photoElement = picturePhotoTemplate.cloneNode(true);

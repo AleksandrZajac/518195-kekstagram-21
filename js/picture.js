@@ -2,7 +2,6 @@
 
 (() => {
 
-  let uploadNumber = 0;
   const UPLOAD_COUNT = 5;
   const bigPicture = document.querySelector(`.big-picture`);
   const bigPictureImg = bigPicture.querySelector(`.big-picture__img`).querySelector(`img`);
@@ -15,6 +14,7 @@
     .querySelector(`.social__comment`);
   const description = document.querySelector(`.social__caption`);
   const socialCommentCount = document.querySelector(`.social__comment-count`);
+  let uploadNumber = 0;
 
   const renderComments = (itemsList, number) => {
     const commentsElement = commentsTemplate.cloneNode(true);
@@ -28,7 +28,7 @@
     return commentsElement;
   };
 
-  let createComments = (items, length, number) => {
+  const createComments = (items, length, number) => {
     if (items.comments.length > length) {
       for (let i = number; i < length; i++) {
         fragment.append(renderComments(items, i));
@@ -49,14 +49,14 @@
     createComments(itemsList, UPLOAD_COUNT, uploadNumber);
   };
 
-  let uploadComments = (itemsList) => {
+  const uploadComments = (itemsList) => {
     commentsUl.innerHTML = ``;
     uploadNumber = uploadNumber + UPLOAD_COUNT;
-    let uploadLength = uploadNumber + UPLOAD_COUNT;
+    const uploadLength = uploadNumber + UPLOAD_COUNT;
     createComments(itemsList, uploadLength, uploadNumber);
   };
 
-  let removeItems = (param) => {
+  const removeItems = (param) => {
     commentsLoader.addEventListener(`click`, () => {
       if (param !== null) {
         uploadComments(param);

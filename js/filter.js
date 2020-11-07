@@ -22,9 +22,9 @@
   });
 
   const showRandomGallery = window.debounce((itemsGallery) => {
-    const clonArr = itemsGallery.slice();
-    const arrRandom = arrayShuffle(clonArr);
-    window.gallery.createGallery(arrRandom, ARRAY_RANDOM_LENGTH);
+    const clon = itemsGallery.slice();
+    const random = arrayShuffle(clon);
+    window.gallery.createGallery(random, ARRAY_RANDOM_LENGTH);
   });
 
   const showDiscussedGallery = window.debounce((itemsGallery) => {

@@ -9,7 +9,7 @@
   const clearForm = () => {
     window.photo.fileChooser.value = ``;
     window.validate.hashtagInput.value = ``;
-    window.validate.comments.value = ``;
+    window.validate.comment.value = ``;
   };
 
   const createTemplate = (id, className) => {
@@ -64,7 +64,7 @@
     });
   };
 
-  let errorHandler = (errors) => {
+  const errorHandler = (errors) => {
     const errorTitle = document.querySelector(`.error__title`);
     errorTitle.textContent = errors;
     window.preview.closePopup();

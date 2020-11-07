@@ -2,7 +2,7 @@
 
 (() => {
 
-  const URL = {
+  const Url = {
     POST: `https://21.javascript.pages.academy/kekstagram`,
     GET: `https://21.javascript.pages.academy/kekstagram/data`
   };
@@ -16,29 +16,29 @@
 
   const TIMEOUT_IN_MS = 3000;
 
-  window.http = (onSuccess, onError, data) => {
+  window.http = (successHandler, errorHandler, data) => {
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
 
     xhr.addEventListener(`load`, () => {
       if (xhr.status === StatusCode.OK) {
-        onSuccess(xhr.response);
+        successHandler(xhr.response);
       } else {
-        onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
+        errorHandler(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
       }
     });
     xhr.addEventListener(`error`, () => {
-      onError(`Произошла ошибка соединения`);
+      errorHandler(`Произошла ошибка соединения`);
     });
     xhr.addEventListener(`timeout`, () => {
-      onError(`Запрос не успел выполниться за ` + xhr.timeout + ` мс`);
+      errorHandler(`Запрос не успел выполниться за ` + xhr.timeout + ` мс`);
     });
 
     xhr.timeout = TIMEOUT_IN_MS;
 
     const method = data ? POST : GET;
 
-    xhr.open(method, URL[method]); // Url - перечисление
+    xhr.open(method, Url[method]);
 
     if (method === POST) {
       xhr.send(data);

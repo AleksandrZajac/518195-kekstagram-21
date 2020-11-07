@@ -35,7 +35,7 @@
   };
 
   const openPopup = () => {
-    window.photo.uploadPhoto();
+    window.photo.upload();
     imgUploadOverlay.classList.remove(`hidden`);
     viewEffectLevel.classList.add(`hidden`);
     imgUploadPreview.style.filter = `none`;
@@ -43,37 +43,44 @@
     defaultValues.zoom();
   };
 
-  let closePopup = () => {
+  const closePopup = () => {
     imgUploadOverlay.classList.add(`hidden`);
     body.classList.remove(`modal-open`);
   };
 
-  let escapePopup = (escapeEvt) => {
+  const escapePopup = (escapeEvt) => {
     const isEscape = escapeEvt.key === `Escape`;
     const isNotHashtag = !escapeEvt.target.matches(`input[class="text__hashtags"]`);
     const isNotDescription = !escapeEvt.target.matches(`textarea[class="text__description"]`);
 
     if (isEscape && isNotHashtag && isNotDescription) {
       escapeEvt.preventDefault();
-      imgUploadOverlay.classList.add(`hidden`);
-      body.classList.remove(`modal-open`);
+      closePopup();
+    }
+  };
+
+  const scaleSmaller = () => {
+    if (+scaleControlValue.value.slice(0, scaleControlValue.value.length - 1) > 25) {
+      const step = Number(scaleControlValue.value.slice(0, scaleControlValue.value.length - 1)) - 25;
+      scaleControlValue.value = `${step}%`;
+      imgUloadPreview.style.transform = `scale(${step / 100})`;
+    }
+  };
+
+  const scaleBigger = () => {
+    if (+scaleControlValue.value.slice(0, scaleControlValue.value.length - 1) < 100) {
+      const step = Number(scaleControlValue.value.slice(0, scaleControlValue.value.length - 1)) + 25;
+      scaleControlValue.value = `${step}%`;
+      imgUloadPreview.style.transform = `scale(${step / 100})`;
     }
   };
 
   scaleControlSmaller.addEventListener(`click`, () => {
-    if (+scaleControlValue.value.slice(0, scaleControlValue.value.length - 1) > 25) {
-      const step = +scaleControlValue.value.slice(0, scaleControlValue.value.length - 1) - 25;
-      scaleControlValue.value = `${step}%`;
-      imgUloadPreview.style.transform = `scale(${step / 100})`;
-    }
+    scaleSmaller();
   });
 
   scaleControlBigger.addEventListener(`click`, () => {
-    if (+scaleControlValue.value.slice(0, scaleControlValue.value.length - 1) < 100) {
-      const step = +scaleControlValue.value.slice(0, scaleControlValue.value.length - 1) + 25;
-      scaleControlValue.value = `${step}%`;
-      imgUloadPreview.style.transform = `scale(${step / 100})`;
-    }
+    scaleBigger();
   });
 
   window.photo.fileChooser.addEventListener(`change`, () => {
@@ -115,7 +122,7 @@
     }
   };
 
-  let previewHandler = (evt) => {
+  const previewHandler = (evt) => {
     filtersTypes[evt.target.value](pinLevel);
     target.value = evt.target.value;
     defaultValues.slider();
@@ -159,7 +166,7 @@
     }
   };
 
-  let onMouseUp = (upEvt) => {
+  const onMouseUp = (upEvt) => {
     upEvt.preventDefault();
     document.removeEventListener(`mousemove`, onMouseMove);
     document.removeEventListener(`mouseup`, onMouseUp);

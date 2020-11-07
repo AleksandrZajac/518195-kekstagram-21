@@ -7,7 +7,7 @@
   const preview = document.querySelector(`.img-upload__preview img`);
   const effectsPreview = document.querySelectorAll(`.effects__preview`);
 
-  const uploadPhoto = () => {
+  const upload = () => {
     const file = fileChooser.files[0];
     const fileName = file.name.toLowerCase();
 
@@ -28,7 +28,7 @@
   };
 
   window.photo = {
-    uploadPhoto,
+    upload,
     fileChooser
   };
 
