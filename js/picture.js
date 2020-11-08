@@ -49,7 +49,7 @@ const renderComments = (comments, number) => {
 const showComments = ({comments}, limitComments) => {
   clearCommentsContainer();
 
-  for (let i = nextCommentIndex; i < limitComments; i++) {
+  for (let i = 0; i < limitComments; i++) {
     fragment.append(renderComments(comments, i));
     commentsLoader.classList.remove(`hidden`);
   }
@@ -94,7 +94,6 @@ const showNextCommentsBlock = () => {
         : nextCommentIndex + COMMENT_LIMIT_COUNT;
   showComments(currentPostItem, limitComments);
   nextCommentIndex = limitComments;
-
   if (nextCommentIndex === length) {
     hiddenNextCommentsButton();
   }
@@ -112,3 +111,4 @@ document.addEventListener(`keydown`, (evt) => {
 window.picture = {
   show,
 };
+
