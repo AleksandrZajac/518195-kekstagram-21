@@ -33,11 +33,9 @@ const showDiscussedGallery = window.debounce((itemsGallery) => {
 });
 
 const clearButtonActive = () => {
-  for (let i = 0; i < filterButtons.length; i++) {
-    if (filterButtons[i].classList.contains(`img-filters__button--active`)) {
-      filterButtons[i].classList.remove(`img-filters__button--active`);
-    }
-  }
+  filterButtons.forEach((button) => {
+    button.classList.remove(`img-filters__button--active`);
+  });
 };
 
 const successHandler = (itemsList) => {
@@ -74,3 +72,4 @@ const errorHandler = (errorMessage) => {
 };
 
 window.http(successHandler, errorHandler);
+

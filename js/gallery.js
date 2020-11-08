@@ -23,18 +23,17 @@ const renderPhoto = (photo) => {
 
 const removePictures = () => {
   const pictures = picturesSection.querySelectorAll(`.picture`);
-  for (let i = 0; i < pictures.length; i++) {
-    picturesSection.removeChild(pictures[i]);
-  }
+
+  pictures.forEach((picture) => {
+    picture.remove();
+  });
 };
 
-const createGallery = (items, length) => {
+const createGallery = (items, lengthLimit) => {
   removePictures();
-  let itemsLength = items.length;
-  if (length) {
-    itemsLength = length;
-  }
-  for (let i = 0; i < itemsLength; i++) {
+  const length = lengthLimit ? lengthLimit : items.length;
+
+  for (let i = 0; i < length; i++) {
     const photo = renderPhoto(items[i]);
     photo.addEventListener(`click`, () => {
       window.picture.show(items[i]);

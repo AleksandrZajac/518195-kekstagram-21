@@ -1,6 +1,7 @@
 const path = require(`path`);
+const webpack = require("webpack");
 
-module.exports = {
+const config = {
   devtool: false,
   entry: [
     "./js/http.js",
@@ -11,11 +12,25 @@ module.exports = {
     "./js/photo.js",
     "./js/validate.js",
     "./js/preview.js",
-    "./js/form.js"
+    "./js/form.js",
   ],
   output: {
     filename: "bundle.js",
     path: path.resolve(__dirname),
-    iife: true
+    iife: true,
+  },
+};
+
+module.exports = (env, argv) => {
+  if (argv.mode === "development") {
+    config.mode = "development";
+    config.devtool = "source-map";
+    config.devServer = {
+      open: true,
+      port: 3000,
+    };
+    config.plugins = [new webpack.HotModuleReplacementPlugin()];
   }
+
+  return config;
 };

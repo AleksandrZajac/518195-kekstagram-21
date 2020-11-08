@@ -17,10 +17,13 @@
     "webpack-cli": "4.2.0"
   },
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "webpack-dev-server": "^3.11.0"
+  },
   "scripts": {
     "test": "eslint js/",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "start": "webpack serve --mode development"
   },
   "engines": {
     "node": "8.11"

@@ -46,7 +46,7 @@ const closeErrorMessage = () => {
   error.classList.add(`hidden`);
 };
 
-const form = document.querySelector(`.img-upload__form`);
+const form = document.forms[`upload-select-image`];
 
 const successHandler = () => {
   window.preview.closePopup();

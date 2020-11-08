@@ -36,13 +36,13 @@ const renderPhoto = ({url, description, likes}) => {
   bigPicture.classList.remove(`hidden`);
 };
 
-const renderComments = (comments, number) => {
+const renderComments = (comment) => {
   const commentsElement = commentsTemplate.cloneNode(true);
   const image = commentsElement.querySelector(`.social__picture`);
   const socialText = commentsElement.querySelector(`.social__text`);
 
-  socialText.textContent = comments[number].message;
-  image.src = comments[number].avatar;
+  socialText.textContent = comment.message;
+  image.src = comment.avatar;
   return commentsElement;
 };
 
@@ -50,7 +50,7 @@ const showComments = ({comments}, limitComments) => {
   clearCommentsContainer();
 
   for (let i = 0; i < limitComments; i++) {
-    fragment.append(renderComments(comments, i));
+    fragment.append(renderComments(comments[i]));
     commentsLoader.classList.remove(`hidden`);
   }
 
@@ -111,4 +111,3 @@ document.addEventListener(`keydown`, (evt) => {
 window.picture = {
   show,
 };
-
