@@ -8,28 +8,26 @@ const randomButton = document.querySelector(`#filter-random`);
 const discussedButton = document.querySelector(`#filter-discussed`);
 const filterButtons = document.querySelectorAll(`.img-filters__button`);
 
-const arrayShuffle = (arr) => {
-  const shuffle = arr.sort(() => Math.round(Math.random() * 100) - 50);
-  return shuffle;
+const arrayShuffle = (items) => {
+  return items.sort(() => Math.round(Math.random() * 100) - 50);
 };
 
 const showDefaultGallery = window.debounce((itemsGallery) => {
-  window.gallery.createGallery(itemsGallery);
+  window.gallery.create(itemsGallery);
   if (itemsGallery) {
     imgFilters.classList.remove(`img-filters--inactive`);
   }
 });
 
 const showRandomGallery = window.debounce((itemsGallery) => {
-  const clon = itemsGallery.slice();
-  const random = arrayShuffle(clon);
-  window.gallery.createGallery(random, RANDOM_LENGTH);
+  const items = itemsGallery.slice();
+  window.gallery.create(arrayShuffle(items), RANDOM_LENGTH);
 });
 
 const showDiscussedGallery = window.debounce((itemsGallery) => {
-  const clonArr = itemsGallery.slice();
-  clonArr.sort((a, b) => b.comments.length - a.comments.length);
-  window.gallery.createGallery(clonArr);
+  const items = itemsGallery.slice();
+  items.sort((a, b) => b.comments.length - a.comments.length);
+  window.gallery.create(items);
 });
 
 const clearButtonActive = () => {

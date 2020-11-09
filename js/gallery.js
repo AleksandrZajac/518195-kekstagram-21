@@ -29,7 +29,7 @@ const removePictures = () => {
   });
 };
 
-const createGallery = (items, lengthLimit) => {
+const create = (items, lengthLimit) => {
   removePictures();
   const length = lengthLimit ? lengthLimit : items.length;
 
@@ -44,5 +44,5 @@ const createGallery = (items, lengthLimit) => {
 };
 
 window.gallery = {
-  createGallery
+  create
 };

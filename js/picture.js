@@ -16,13 +16,13 @@ const postDescription = document.querySelector(`.social__caption`);
 const socialCommentCount = document.querySelector(`.social__comment-count`);
 
 const removeCommentsControl = () => {
-  commentsLoader.removeEventListener(`click`, showNextCommentsBlock);
-  closeUsersPopup.removeEventListener(`click`, closePhoto);
+  commentsLoader.removeEventListener(`click`, showNextCommentsHandler);
+  closeUsersPopup.removeEventListener(`click`, closePhotoHandler);
 };
 
 const addCommentsControl = () => {
-  commentsLoader.addEventListener(`click`, showNextCommentsBlock);
-  closeUsersPopup.addEventListener(`click`, closePhoto);
+  commentsLoader.addEventListener(`click`, showNextCommentsHandler);
+  closeUsersPopup.addEventListener(`click`, closePhotoHandler);
 };
 
 const clearCommentsContainer = () => {
@@ -66,10 +66,10 @@ const show = (postItem) => {
   addCommentsControl();
   renderPhoto(postItem);
   showNextCommentsButton();
-  showNextCommentsBlock();
+  showNextCommentsHandler();
 };
 
-const closePhoto = () => {
+const closePhotoHandler = () => {
   bigPicture.classList.add(`hidden`);
   clearCommentsContainer();
   removeCommentsControl();
@@ -83,7 +83,7 @@ const showNextCommentsButton = () => {
   commentsLoader.classList.remove(`hidden`);
 };
 
-const showNextCommentsBlock = () => {
+const showNextCommentsHandler = () => {
   const {
     comments: {length},
   } = currentPostItem;
@@ -104,7 +104,7 @@ const closeUsersPopup = document.querySelector(`.big-picture__cancel`);
 
 document.addEventListener(`keydown`, (evt) => {
   if (evt.key === `Escape`) {
-    closePhoto();
+    closePhotoHandler();
   }
 });
 
